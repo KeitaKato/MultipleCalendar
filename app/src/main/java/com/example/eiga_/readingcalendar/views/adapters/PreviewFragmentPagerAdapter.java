@@ -10,8 +10,11 @@ import com.example.eiga_.readingcalendar.fragments.OCRPreviewFragment;
 
 public class PreviewFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    public PreviewFragmentPagerAdapter(FragmentManager manager) {
+    private String imageUriString;
+
+    public PreviewFragmentPagerAdapter(FragmentManager manager, String imageUriString) {
         super(manager);
+        this.imageUriString = imageUriString;
     }
 
     @Override
@@ -21,7 +24,7 @@ public class PreviewFragmentPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return OCRPreviewFragment.newInstance();
             case 1:
-                return CameraPreviewFragment.newInstance();
+                return CameraPreviewFragment.newInstance(imageUriString);
         }
         return null;
     }
