@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class CalenderDBOpenHelper extends SQLiteOpenHelper {
+public class DBOpenHelper extends SQLiteOpenHelper {
 
     // バージョン
     private static  final int DATABASE_VERSION = 1;
@@ -21,7 +21,7 @@ public class CalenderDBOpenHelper extends SQLiteOpenHelper {
             + "spending INTEGER,"
             + "myset_plan_id INTEGER,"
             + "reading_data_id INTEGER,"
-            + "created_at,"
+            + "created_at DEFAULT CURRENT_TIMESTAMP,"
             + "updated_at"
             + ");";
     private static final String MYSET_PLAN_TABLE_NAME = "myset_plans";
@@ -32,7 +32,7 @@ public class CalenderDBOpenHelper extends SQLiteOpenHelper {
             + "time_zone TEXT,"
             + "income INTEGER,"
             + "spending INTEGER,"
-            + "created_at,"
+            + "created_at DEFAULT CURRENT_TIMESTAMP,"
             + "updated_at"
             + ");";
     private static final String READING_DATA_TABLE_NAME = "reading_datas";
@@ -41,9 +41,11 @@ public class CalenderDBOpenHelper extends SQLiteOpenHelper {
             + "data_title TEXT,"
             + "data_url TEXT,"
             + "data_days TEXT,"
-            + "";
+            + "created_at DEFAULT CURRENT_TIMESTAMP,"
+            + "updated_at"
+            + ");";
 
-    CalenderDBOpenHelper(Context context) {
+    DBOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
