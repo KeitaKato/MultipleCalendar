@@ -19,12 +19,29 @@ public class CalenderDBOpenHelper extends SQLiteOpenHelper {
             + "time_zone TEXT,"
             + "income INTEGER,"
             + "spending INTEGER,"
-            + "reading_data INTEGER"
+            + "myset_plan_id INTEGER,"
+            + "reading_data_id INTEGER,"
+            + "created_at,"
+            + "updated_at"
             + ");";
     private static final String MYSET_PLAN_TABLE_NAME = "myset_plans";
-    private static final String MYSET_PLAN_CREATE_SQL = "";
+    private static final String MYSET_PLAN_CREATE_SQL = "CREATE TABLE myset_plans ("
+            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "plan_title TEXT,"
+            + "plan_type TEXT,"
+            + "time_zone TEXT,"
+            + "income INTEGER,"
+            + "spending INTEGER,"
+            + "created_at,"
+            + "updated_at"
+            + ");";
     private static final String READING_DATA_TABLE_NAME = "reading_datas";
-    private static final String READING_DATA_CREATE_SQL = "";
+    private static final String READING_DATA_CREATE_SQL = "CREATE TABLE myset_plans ("
+            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "data_title TEXT,"
+            + "data_url TEXT,"
+            + "data_days TEXT,"
+            + "";
 
     CalenderDBOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +51,8 @@ public class CalenderDBOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // テーブル作成
         db.execSQL(CALENDER_CREATE_SQL);
+        db.execSQL(MYSET_PLAN_CREATE_SQL);
+        db.execSQL(READING_DATA_CREATE_SQL);
     }
 
     @Override
