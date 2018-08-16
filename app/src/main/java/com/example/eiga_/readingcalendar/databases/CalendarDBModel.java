@@ -3,11 +3,17 @@ package com.example.eiga_.readingcalendar.databases;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CalendarDBModel extends DBModelBase{
 
     final String CALENDER_TABLE_NAME = "calenders";
+    private final Context context;
+
     CalendarDBModel(Context context) {
         super(context);
+        this.context = context;
     }
 
     @Override
@@ -33,8 +39,47 @@ public class CalendarDBModel extends DBModelBase{
         return sb.toString();
     }
 
-    public void insertData(String day, String planTitle, String planType, String timeZone,String income, String spending, String mysetPlanId, String readingDataId){
-        String sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title, plan_type, time_zone, income, spending, myset_plan_id, reading_data_id) values(?,?,?,?,?,?,?,?);";
+    public  void insertData(String day, String planTitle){
+
+        MysetPlanDBModel mysetPlanDBModel = new MysetPlanDBModel(context);
+        String mysetPlanId = mysetPlanDBModel.searchData("plan_title", planTitle);
+
+        String sql;
+        List<String> bindStr = new ArrayList<>();
+        if (mysetPlanId != null){
+            sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title, myset_plan_id) values(?,?,?);";
+            bindStr.add(day);
+            bindStr.add(planTitle);
+            bindStr.add(mysetPlanId);
+        } else {
+            sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title) values(?,?);";
+            bindStr.add(day);
+            bindStr.add(planTitle);
+        }
+
+
+        super.executeSql(sql,bindStr.toArray(new String[bindStr.size()]));
+    }
+
+    public void insertData(String day, String planTitle, String planType, String timeZone,String income, String spending){
+        String sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title, plan_type, time_zone, income, spending) values(?,?,?,?,?,?);";
+        String[] bindStr = new String[]{
+                day,
+                planTitle,
+                planType,
+                timeZone,
+                income,
+                spending
+        };
+
+        super.executeSql(sql,bindStr);
+
+    }
+
+    public void updateData(String column, String keyword, String day, String planTitle, String planType, String timeZone,String income, String spending) {
+        String sql = "UPDATE " + CALENDER_TABLE_NAME
+                + " SET day = ?, plan_title = ?, plan_type = ?, time_zone = ?, income = ?, spending = ?, myset_plan_id = ?, reading_data_id = ? "
+                + "WHERE ? = ? ;";
         String[] bindStr = new String[]{
                 day,
                 planTitle,
@@ -42,11 +87,22 @@ public class CalendarDBModel extends DBModelBase{
                 timeZone,
                 income,
                 spending,
-                mysetPlanId,
-                readingDataId
+                column,
+                keyword
         };
 
-        super.executeInsertSql(sql,bindStr);
+        super.executeSql(sql, bindStr);
+    }
 
+    @Override
+    public void deleteData(String column, String keyword) {
+        String sql = "DELETE FROM " + CALENDER_TABLE_NAME
+                + " WHERE ? = ?;";
+        String[] bindStr = new String[]{
+                column,
+                keyword
+        };
+
+        super.executeSql(sql, bindStr);
     }
 }

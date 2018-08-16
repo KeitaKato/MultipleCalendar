@@ -2,7 +2,9 @@ package com.example.eiga_.readingcalendar.databases;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public abstract class DBModelBase {
 
@@ -41,8 +43,15 @@ public abstract class DBModelBase {
 
     abstract String readCursor(Cursor cursor);
 
-    protected void executeInsertSql(String sql, String[] bindStr) {
+    protected void executeSql(String sql, String[] bindStr) {
 
+        try{
+            db.execSQL(sql, bindStr);
+        } catch (SQLException e) {
+            Log.e("ERROR", e.toString());
+        }
     }
+
+    abstract void deleteData(String column, String keyword);
 }
 

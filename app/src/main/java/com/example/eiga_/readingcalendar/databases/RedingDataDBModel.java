@@ -35,4 +35,41 @@ public class RedingDataDBModel extends DBModelBase {
         }
         return sb.toString();
     }
+
+    public void insertData(String dataTitle, String dataUrl, String dataDays) {
+        String sql = "INSERT INTO " + READING_DATA_TABLE_NAME
+                + "(data_title, data_url, data_days) values(?,?,?);";
+        String[] bindStr = new String[] {
+                dataTitle,
+                dataUrl,
+                dataDays,
+        };
+        super.executeSql(sql,bindStr);
+    }
+
+    public void updateData(String column, String keyword, String dataTitle, String dataUrl, String dataDays) {
+        String sql = "UPDATE " + READING_DATA_TABLE_NAME
+                + " SET data_title = ?, data_url = ?, data_days = ? "
+                + "WHERE ? = ? ;";
+        String[] bindStr = new String[] {
+                dataTitle,
+                dataUrl,
+                dataDays,
+                column,
+                keyword
+        };
+        super.executeSql(sql,bindStr);
+    }
+
+    @Override
+    void deleteData(String column, String keyword) {
+        String sql = "DELETE FROM " + READING_DATA_TABLE_NAME
+                + " WHERE ? = ?;";
+        String[] bindStr = new String[]{
+                column,
+                keyword
+        };
+
+        super.executeSql(sql,bindStr);
+    }
 }
