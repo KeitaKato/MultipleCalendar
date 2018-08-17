@@ -20,6 +20,7 @@ import com.example.eiga_.readingcalendar.R;
  * create an instance of this fragment.
  */
 public class OCRPreviewFragment extends Fragment {
+    private String OCRData;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -36,16 +37,19 @@ public class OCRPreviewFragment extends Fragment {
      * @return A new instance of fragment OCRPreviewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OCRPreviewFragment newInstance() {
+    public static OCRPreviewFragment newInstance(String OCRData) {
         OCRPreviewFragment fragment = new OCRPreviewFragment();
-        Bundle bundle = new Bundle();
-        fragment.setArguments(bundle);
+        Bundle args = new Bundle();
+        args.putString("OCR_DATA", OCRData);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        OCRData = args.getString("OCR_DATA");
     }
 
     @Override
@@ -54,6 +58,8 @@ public class OCRPreviewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ocr_preview, null);
         ConstraintLayout constraintLayout = (ConstraintLayout) view.findViewById(R.id.fragment_ocr_constraintlayout);
 
+        TextView OCRPreview = view.findViewById(R.id.tess_two_test);
+        OCRPreview.setText(OCRData);
         return view;
 
     }
