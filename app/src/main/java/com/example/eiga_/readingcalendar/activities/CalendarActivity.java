@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.example.eiga_.readingcalendar.R;
 import com.example.eiga_.readingcalendar.services.ImageGetService;
+import com.example.eiga_.readingcalendar.services.TessTwoIntentService;
 import com.example.eiga_.readingcalendar.views.adapters.CalendarAdapter;
 
 import java.text.SimpleDateFormat;
@@ -155,6 +156,12 @@ public class CalendarActivity extends AppCompatActivity{
         } else if (requestCode == CAMERA_REQ_CODE && resultCode == RESULT_OK) {
             // service停止
             stopService(serviceIntent);
+
+            //TessTwoIntentを作成
+            Intent tessTwoIntent = new Intent(CalendarActivity.this, TessTwoIntentService.class);
+            tessTwoIntent.putExtra("IMAGE_BITMAP", (Bitmap)data.getExtras().get("data"));
+            startService(tessTwoIntent);
+
             // previewIntentを作成。
             Intent previewIntent = new Intent(CalendarActivity.this, PreviewActivity.class);
             // _imageUriをStringに変換

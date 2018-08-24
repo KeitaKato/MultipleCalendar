@@ -20,8 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.PreviewActivity"/>
+        <activity android:name=".activities.PreviewActivity" />
+
         <service android:name=".services.ImageGetService" />
+        <service
+            android:name=".services.TessTwoIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

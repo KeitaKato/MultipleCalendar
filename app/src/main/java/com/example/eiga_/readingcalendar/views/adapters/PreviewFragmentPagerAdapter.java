@@ -23,19 +23,11 @@ import java.io.OutputStream;
 
 public class PreviewFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private String lang = "eng";
-    private String filePath;
     private String imageUriString;
-    private String OCRData;
-    private Context context;
 
     public PreviewFragmentPagerAdapter(FragmentManager manager, String imageUriString) {
         super(manager);
-        context = MyContext.getContext();
-        filePath = context.getFilesDir() + "/tesseract/";
-        checkFile(new File(filePath + "tessdata/"));
         this.imageUriString = imageUriString;
-        this.OCRData = getOCRData(imageUriString);
     }
 
     @Override
@@ -65,67 +57,5 @@ public class PreviewFragmentPagerAdapter extends FragmentPagerAdapter {
 
         }
         return null;
-    }
-
-    private void checkFile(File file) {
-        if (!file.exists() && file.mkdirs()) {
-            copyFiles();
-        }
-        if(file.exists()) {
-            String dataFilePath = filePath+ "/tessdata/"+ lang +".traineddata";
-            File dataFile = new File(dataFilePath);
-
-            if (!dataFile.exists()) {
-                copyFiles();
-            }
-        }
-    }
-
-    private void copyFiles() {
-        try {
-            String dataPath = filePath + "/tessdata/" + lang + ".traineddata";
-            InputStream inStream = context.getAssets().open("tessdata/"+ lang +".traineddata");
-
-            OutputStream outStream = new FileOutputStream(dataPath);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, read);
-            }
-
-            outStream.flush();
-            outStream.close();
-            inStream.close();
-
-            File file = new File(dataPath);
-            if (!file.exists()) {
-                throw new FileNotFoundException();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String getOCRData(String imageUriString) {
-        Uri imageUri = Uri.parse(imageUriString);
-        // UriからInputStreamを生成。
-        InputStream stream = null;
-        try {
-            stream = context.getContentResolver().openInputStream((Uri)imageUri);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Bitmap bitmap = BitmapFactory.decodeStream(stream);
-
-        // tess-twoでocrデータを取得。
-        TessBaseAPI baseApi = new TessBaseAPI();
-        baseApi.init(filePath, lang);
-        baseApi.setImage(bitmap);
-        String recognizedText = baseApi.getUTF8Text();
-        baseApi.end();
-
-        return recognizedText;
-
     }
 }
