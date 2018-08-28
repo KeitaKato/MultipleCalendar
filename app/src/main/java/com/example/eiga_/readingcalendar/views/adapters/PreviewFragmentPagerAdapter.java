@@ -35,7 +35,7 @@ public class PreviewFragmentPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return OCRPreviewFragment.newInstance(OCRData);
+                return OCRPreviewFragment.newInstance();
             case 1:
                 return CameraPreviewFragment.newInstance(imageUriString);
         }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.example.eiga_.readingcalendar.utils.MyContext;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -62,6 +63,7 @@ public class TessTwoIntentService extends IntentService {
         // LocalBroadcastManagerにデータをおくる
         Intent localBroadcastIntent = new Intent();
         localBroadcastIntent.putExtra("OCR_DATA", tessTwoData);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(localBroadcastIntent);
     }
 
     @Override

@@ -25,7 +25,7 @@
         <service android:name=".services.ImageGetService" />
         <service
             android:name=".services.TessTwoIntentService"
-            android:exported="false"></service>
+            android:exported="false"/>
     </application>
 
 </manifest>
