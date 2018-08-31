@@ -26,6 +26,7 @@ import com.example.eiga_.readingcalendar.utils.MyContext;
  */
 public class OCRPreviewFragment extends Fragment {
     private static OCRPreviewFragment fragment;
+    public static final String TESS_TWO_BROADCAST_KEY = "TESS_TWO_INTENT_SERVICE";
     private String OCRData;
     private localBroadcastReceiver localBroadcastReceiver = null;
     private TextView OCRPreview;
@@ -59,7 +60,7 @@ public class OCRPreviewFragment extends Fragment {
         // ブロードキャストを設定
         if(this.localBroadcastReceiver == null) {
             // インテントフィルター
-            IntentFilter intentFilter = new IntentFilter();
+            IntentFilter intentFilter = new IntentFilter(OCRPreviewFragment.TESS_TWO_BROADCAST_KEY);
             // ローカルブロードキャストを受け取るレシーバー
             this.localBroadcastReceiver = new localBroadcastReceiver();
             // ローカルブロードキャストを設定。
