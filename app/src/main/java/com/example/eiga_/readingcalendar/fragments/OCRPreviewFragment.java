@@ -25,8 +25,10 @@ import com.example.eiga_.readingcalendar.utils.MyContext;
  * create an instance of this fragment.
  */
 public class OCRPreviewFragment extends Fragment {
+    private static OCRPreviewFragment fragment;
     private String OCRData;
     private localBroadcastReceiver localBroadcastReceiver = null;
+    private TextView OCRPreview;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -44,9 +46,8 @@ public class OCRPreviewFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static OCRPreviewFragment newInstance() {
-        OCRPreviewFragment fragment = new OCRPreviewFragment();
+        fragment = new OCRPreviewFragment();
         Bundle args = new Bundle();
-        args.putString("OCR_DATA", OCRData);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,16 +66,23 @@ public class OCRPreviewFragment extends Fragment {
             LocalBroadcastManager.getInstance(MyContext.getContext()).registerReceiver(this.localBroadcastReceiver,intentFilter);
         }
         Bundle args = getArguments();
-        OCRData = args.getString("OCR_DATA");
+        if (args != null) {
+            if(args.containsKey("OCR_DATA")) {
+                OCRData = args.getString("OCR_DATA");
+            } else {
+                OCRData = "読み込み中";
+            }
+        } else {
+            newInstance();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ocr_preview, null);
-        ConstraintLayout constraintLayout = (ConstraintLayout) view.findViewById(R.id.fragment_ocr_constraintlayout);
 
-        TextView OCRPreview = view.findViewById(R.id.tess_two_test);
+        OCRPreview = view.findViewById(R.id.tess_two_test);
         OCRPreview.setText(OCRData);
         return view;
 
@@ -83,7 +91,17 @@ public class OCRPreviewFragment extends Fragment {
     public class localBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            String OCRData = intent.getStringExtra("OCR_DATA");
+            Bundle args = getArguments();
+            if (OCRData != null){
+                if (args != null) {
+                    args.putString("OCR_DATA", OCRData);
+                    fragment.setArguments(args);
+                } else {
+                    newInstance();
+                }
+                OCRPreview.setText(OCRData);
+            }
         }
     }
 }

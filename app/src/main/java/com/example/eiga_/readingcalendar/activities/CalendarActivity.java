@@ -28,6 +28,7 @@ import com.example.eiga_.readingcalendar.services.ImageGetService;
 import com.example.eiga_.readingcalendar.services.TessTwoIntentService;
 import com.example.eiga_.readingcalendar.views.adapters.CalendarAdapter;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -157,11 +158,6 @@ public class CalendarActivity extends AppCompatActivity{
             // service停止
             stopService(serviceIntent);
 
-            //TessTwoIntentを作成
-            Intent tessTwoIntent = new Intent(CalendarActivity.this, TessTwoIntentService.class);
-            tessTwoIntent.putExtra("IMAGE_BITMAP", (Bitmap)data.getExtras().get("data"));
-            startService(tessTwoIntent);
-
             // previewIntentを作成。
             Intent previewIntent = new Intent(CalendarActivity.this, PreviewActivity.class);
             // _imageUriをStringに変換
@@ -170,6 +166,11 @@ public class CalendarActivity extends AppCompatActivity{
             previewIntent.putExtra("IMAGE_URI", imageUriString);
             // PreviewActivityの起動
             startActivity(previewIntent);
+
+            //TessTwoIntentを作成
+            Intent tessTwoIntent = new Intent(CalendarActivity.this, TessTwoIntentService.class);
+            tessTwoIntent.putExtra("IMAGE_URI", imageUriString);
+            startService(tessTwoIntent);
         }
     }
 

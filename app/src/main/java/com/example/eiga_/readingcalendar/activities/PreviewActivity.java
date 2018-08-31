@@ -26,8 +26,7 @@ public class PreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preview);
         // インテントを取得。
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        imageUriString = (String)bundle.get("IMAGE_URI");
+        imageUriString = intent.getStringExtra("IMAGE_URI");
         setViews();
 
     }

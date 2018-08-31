@@ -4,7 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.example.eiga_.readingcalendar.utils.MyContext;
@@ -13,6 +15,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -56,8 +59,14 @@ public class TessTwoIntentService extends IntentService {
         context = MyContext.getContext();
         filePath = context.getFilesDir() + "/tesseract/";
         checkFile(new File(filePath + "tessdata/"));
-        Bundle bundle = intent.getExtras();
-        Bitmap bitmap = (Bitmap) bundle.get("data");
+        String imageUriString = intent.getStringExtra("IMAGE_URI");
+        Uri _imageUri = Uri.parse(imageUriString);
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), _imageUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String tessTwoData = getTessTwoData(bitmap);
 
         // LocalBroadcastManagerにデータをおくる
