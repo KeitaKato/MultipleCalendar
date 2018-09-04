@@ -1,18 +1,17 @@
 package com.example.eiga_.readingcalendar.activities;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
-import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.Px;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,14 +20,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.eiga_.readingcalendar.R;
 import com.example.eiga_.readingcalendar.services.ImageGetService;
 import com.example.eiga_.readingcalendar.services.TessTwoIntentService;
+import com.example.eiga_.readingcalendar.utils.MyContext;
+import com.example.eiga_.readingcalendar.utils.PxDpUtil;
 import com.example.eiga_.readingcalendar.views.adapters.CalendarAdapter;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,6 +47,20 @@ public class CalendarActivity extends AppCompatActivity{
     private static int CAMERA_REQ_CODE = 3000;
     private static int WRITE_STORAGE_PERMISSION_REQ_CODE = 2000;
     private FloatingActionButton actionButton;
+    private FloatingActionButton cameraButton;
+    private FloatingActionButton presetButton;
+    private FloatingActionButton plansButton;
+    private LinearLayout presetLayout;
+    private LinearLayout cameraLayout;
+    private LinearLayout plansLayout;
+    private View mFabBackground;
+
+    enum ButtonState {
+        CLOSE,
+        OPEN
+    }
+
+    ButtonState mButtonState = ButtonState.CLOSE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +92,24 @@ public class CalendarActivity extends AppCompatActivity{
         calendarGridView.setAdapter(mCalendarAdapter);
         titleText.setText(mCalendarAdapter.getTitle());
 
-        actionButton = findViewById(R.id.floatingActionButton2);
-        actionButton.setOnClickListener(actionButtonListener);
+        // フローティングアクションボタンにリスナーセット
+        actionButton = findViewById(R.id.floatingActionButton);
+        actionButton.setOnClickListener(ActionButtonListener);
+
+        // 各ボタンを表示、リスナーセット
+        mFabBackground = findViewById(R.id.fabBackground);
+
+        presetLayout = findViewById(R.id.AddPresetLayout);
+        presetButton = findViewById(R.id.AddPresetFab);
+        presetButton.setOnClickListener(PresetButtonListener);
+
+        cameraLayout = findViewById(R.id.AddCameraLayout);
+        cameraButton = findViewById(R.id.AddCameraFab);
+        cameraButton.setOnClickListener(CameraButtonListener);
+
+        plansLayout = findViewById(R.id.AddPlansLayout);
+        plansButton = findViewById(R.id.AddPlansFab);
+        plansButton.setOnClickListener(PlansButtonListener);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -90,7 +121,23 @@ public class CalendarActivity extends AppCompatActivity{
         }
     }
 
-    View.OnClickListener actionButtonListener = new View.OnClickListener() {
+    View.OnClickListener ActionButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int iconWhile = PxDpUtil.dpToPx(66, MyContext.getContext());
+            int iconWhileMini = PxDpUtil.dpToPx(10,MyContext.getContext());
+
+            if (mButtonState == ButtonState.CLOSE) {
+                fabOpen(iconWhile,iconWhileMini);
+                actionButton.setElevation(mFabBackground.getElevation() + actionButton.getElevation() + PxDpUtil.dpToPx(20, MyContext.getContext()));
+
+            } else {
+                fabClose();
+            }
+        }
+    };
+
+    View.OnClickListener CameraButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
 
@@ -139,10 +186,23 @@ public class CalendarActivity extends AppCompatActivity{
 
     };
 
+    View.OnClickListener PresetButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        }
+    };
+
+    View.OnClickListener PlansButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+        }
+    };
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
         if(requestCode == WRITE_STORAGE_PERMISSION_REQ_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            actionButtonListener.onClick(actionButton);
+            CameraButtonListener.onClick(cameraButton);
         }
     }
 
@@ -172,6 +232,54 @@ public class CalendarActivity extends AppCompatActivity{
             tessTwoIntent.putExtra("IMAGE_URI", imageUriString);
             startService(tessTwoIntent);
         }
+    }
+
+    private void fabOpen(int iconWhile,int iconWhileMini) {
+        presetLayout.setVisibility(View.VISIBLE);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(presetLayout, "translationY",-iconWhile );
+        animator.setDuration(200);
+        animator.start();
+
+        cameraLayout.setVisibility(View.VISIBLE);
+        animator = ObjectAnimator.ofFloat(cameraLayout, "translationY", -iconWhile * 2 + iconWhileMini);
+        animator.setDuration(200);
+        animator.start();
+
+        plansLayout.setVisibility(View.VISIBLE);
+        animator = ObjectAnimator.ofFloat(plansLayout, "translationY", -iconWhile * 3 + iconWhileMini + iconWhileMini);
+        animator.setDuration(200);
+        animator.start();
+
+        animator = ObjectAnimator.ofFloat(actionButton, "rotation", 45);
+        animator.setDuration(200);
+        animator.start();
+
+        mButtonState = ButtonState.OPEN;
+        mFabBackground.setVisibility(View.VISIBLE);
+    }
+
+    private void fabClose() {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(presetLayout, "translationY",0);
+        animator.setDuration(200);
+        animator.start();
+        presetLayout.setVisibility(View.GONE);
+
+        animator = ObjectAnimator.ofFloat(cameraLayout, "translationY", 0);
+        animator.setDuration(200);
+        animator.start();
+        cameraLayout.setVisibility(View.GONE);
+
+        animator = ObjectAnimator.ofFloat(plansLayout, "translationY", 0);
+        animator.setDuration(200);
+        animator.start();
+        plansLayout.setVisibility(View.GONE);
+
+        animator = ObjectAnimator.ofFloat(actionButton, "rotation", 0);
+        animator.setDuration(200);
+        animator.start();
+
+        mButtonState = ButtonState.CLOSE;
+        mFabBackground.setVisibility(View.GONE);
     }
 
 }

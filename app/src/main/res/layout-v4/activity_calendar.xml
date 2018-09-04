@@ -148,11 +148,103 @@
             android:horizontalSpacing="1dp"
             android:numColumns="7"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="1dp"></GridView>
+            android:verticalSpacing="1dp"/>
+    </LinearLayout>
+
+    <!-- フローティングアクションボタンを押したときに表示 -->
+    <View
+        android:id="@+id/fabBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/translucentColor"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/AddPresetLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/AddPresetText"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:text="@string/add_preset_title"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddPresetFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fab_margin_mini_bottom"
+            android:layout_marginEnd="@dimen/fab_margin_mini_end"
+            android:src="@android:drawable/ic_menu_today"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/AddCameraLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/AddCameraText"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:text="@string/add_preset_title"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddCameraFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fab_margin_mini_bottom"
+            android:layout_marginEnd="@dimen/fab_margin_mini_end"
+            android:src="@android:drawable/ic_menu_today"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/AddPlansLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/AddPlansText"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:text="@string/add_preset_title"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddPlansFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fab_margin_mini_end"
+            android:layout_marginEnd="@dimen/fab_margin_mini_end"
+            android:src="@android:drawable/ic_menu_edit"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -162,7 +254,7 @@
         android:onClick="onActionButtonClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="OnClick" />
+        tools:ignore="OnClick"/>
 
 
 </android.support.constraint.ConstraintLayout>

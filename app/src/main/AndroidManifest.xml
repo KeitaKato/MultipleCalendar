@@ -25,7 +25,9 @@
         <service android:name=".services.ImageGetService" />
         <service
             android:name=".services.TessTwoIntentService"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity android:name=".activities.AddPresetActivity"></activity>
     </application>
 
 </manifest>
