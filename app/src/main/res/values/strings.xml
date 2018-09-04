@@ -4,5 +4,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_preset_title">プリセット</string>
+    <string name="title_hint_text">タイトルを入力</string>
+    <string name="start_time_text">開始</string>
+    <string name="end_time_text">終了</string>
+    <string name="use_time_text">所要時間</string>
+    <string name="type_text">予定属性</string>
+    <string name="income_price_text">収入</string>
+    <string name="spending_price_text">支出</string>
+    <string name="memo_hint_text">メモを追加</string>
+    <string name="zero_enn">0円</string>
+    <string name="cancel_Text">キャンセル</string>
+    <string name="storage_text">保存</string>
 
 </resources>

@@ -187,8 +187,12 @@ public class CalendarActivity extends AppCompatActivity{
     };
 
     View.OnClickListener PresetButtonListener = new View.OnClickListener() {
+
         @Override
         public void onClick(View view) {
+            Intent intent = new Intent(CalendarActivity.this, AddPresetActivity.class);
+            startActivity(intent);
+
         }
     };
 

@@ -35,29 +35,35 @@ public class MysetPlanDBModel extends DBModelBase {
         return sb.toString();
     }
 
-    public void insertData(String planTitle, String planType, String timeZone, String income, String spending) {
+    public void insertData(String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending, String memoText) {
         String sql = "INSERT INTO " + MYSET_PLAN_TABLE_NAME
                 + "(plan_title, plan_type, time_zone, income, spending) values(?,?,?,?,?);";
         String[] bindStr = new String[] {
                 planTitle,
                 planType,
-                timeZone,
+                startTime,
+                endTime,
+                useTime,
                 income,
-                spending
+                spending,
+                memoText
         };
         super.executeSql(sql,bindStr);
     }
 
-    public void updateData(String column, String keyword, String planTitle, String planType, String timeZone, String income, String spending) {
+    public void updateData(String column, String keyword, String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending, String memoText) {
         String sql = "UPDATE " + MYSET_PLAN_TABLE_NAME
                 + " SET plan_title = ?, plan_type = ?, time_zone = ?, income = ?, spending = ? "
                 + "WHERE ? = ? ;";
         String[] bindStr = new String[] {
                 planTitle,
                 planType,
-                timeZone,
+                startTime,
+                endTime,
+                useTime,
                 income,
                 spending,
+                memoText,
                 column,
                 keyword
         };
