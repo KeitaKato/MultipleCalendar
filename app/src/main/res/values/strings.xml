@@ -15,5 +15,6 @@
     <string name="zero_enn">0円</string>
     <string name="cancel_Text">キャンセル</string>
     <string name="storage_text">保存</string>
+    <string name="add_preset_text">プレセットを追加する</string>
 
 </resources>

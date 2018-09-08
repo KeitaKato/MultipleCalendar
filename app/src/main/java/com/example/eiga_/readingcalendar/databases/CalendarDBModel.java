@@ -3,6 +3,8 @@ package com.example.eiga_.readingcalendar.databases;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.example.eiga_.readingcalendar.data.PlanData;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +41,15 @@ public class CalendarDBModel extends DBModelBase{
         return sb.toString();
     }
 
+    @Override
+    List<PlanData> readCursorAll(Cursor cursor) {
+        return null;
+    }
+
     public  void insertData(String day, String planTitle){
 
-        MysetPlanDBModel mysetPlanDBModel = new MysetPlanDBModel(context);
-        String mysetPlanId = mysetPlanDBModel.searchData("plan_title", planTitle);
+        PresetPlanDBModel PresetPlanDBModel = new PresetPlanDBModel(context);
+        String mysetPlanId = PresetPlanDBModel.searchData("plan_title", planTitle);
 
         String sql;
         List<String> bindStr = new ArrayList<>();

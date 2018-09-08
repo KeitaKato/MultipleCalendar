@@ -3,6 +3,10 @@ package com.example.eiga_.readingcalendar.databases;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.example.eiga_.readingcalendar.data.PlanData;
+
+import java.util.List;
+
 public class RedingDataDBModel extends DBModelBase {
 
     final String READING_DATA_TABLE_NAME = "reading_datas";
@@ -34,6 +38,11 @@ public class RedingDataDBModel extends DBModelBase {
             cursor.moveToNext();
         }
         return sb.toString();
+    }
+
+    @Override
+    List<PlanData> readCursorAll(Cursor cursor) {
+        return null;
     }
 
     public void insertData(String dataTitle, String dataUrl, String dataDays) {

@@ -1,16 +1,21 @@
-package com.example.eiga_.readingcalendar.utils;
+package com.example.eiga_.readingcalendar.data;
 
-public class Plan {
+public class PlanData {
+    private int id;
     private String title;
     private String startTime;
     private String endTime;
-    private String useTime;
+    private int useTime;
     private String type;
-    private String income;
-    private String spending;
+    private int income;
+    private int spending;
     private String memo;
 
-    public Plan(String title,String startTime,String endTime,String useTime,String type,String income,String spending,String memo) {
+    public PlanData() {
+    }
+
+    public PlanData(int id, String title,String startTime,String endTime,int useTime,String type,int income,int spending,String memo) {
+        this.id = id;
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -45,11 +50,11 @@ public class Plan {
         this.endTime = endTime;
     }
 
-    public String getUseTime() {
+    public int getUseTime() {
         return useTime;
     }
 
-    public void setUseTime(String useTime) {
+    public void setUseTime(int useTime) {
         this.useTime = useTime;
     }
 
@@ -61,19 +66,19 @@ public class Plan {
         this.type = type;
     }
 
-    public String getIncome() {
+    public int getIncome() {
         return income;
     }
 
-    public void setIncome(String income) {
+    public void setIncome(int income) {
         this.income = income;
     }
 
-    public String getSpending() {
+    public int getSpending() {
         return spending;
     }
 
-    public void setSpending(String spending) {
+    public void setSpending(int spending) {
         this.spending = spending;
     }
 
@@ -83,5 +88,13 @@ public class Plan {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

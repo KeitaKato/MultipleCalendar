@@ -21,17 +21,23 @@
             app:layout_constraintTop_toTopOf="parent" >
 
             <TextView
+                android:id="@+id/cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cancel_Text"
-                android:textColor="@color/whiteColor" />
+                android:clickable="true"
+                android:textColor="@color/whiteColor"
+                android:focusable="true" />
 
             <TextView
+                android:id="@+id/storage_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/storage_text"
+                android:clickable="true"
                 android:textColor="@color/whiteColor"
-                android:gravity="end"/>
+                android:gravity="end"
+                android:focusable="true" />
         </android.support.v7.widget.Toolbar>
 
         <EditText
@@ -64,6 +70,7 @@
                 android:text="@string/start_time_text" />
 
             <TextView
+                android:id="@+id/startTimeText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -86,6 +93,7 @@
                 android:text="@string/end_time_text" />
 
             <TextView
+                android:id="@+id/endTimeText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -108,6 +116,7 @@
                 android:text="@string/use_time_text" />
 
             <TextView
+                android:id="@+id/useTimeText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -132,6 +141,7 @@
                 android:text="@string/type_text" />
 
             <TextView
+                android:id="@+id/typeText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -155,6 +165,7 @@
                 android:text="@string/income_price_text" />
 
             <TextView
+                android:id="@+id/incomePriceText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -178,6 +189,7 @@
                 android:text="@string/spending_price_text" />
 
             <TextView
+                android:id="@+id/spendingPriceText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"

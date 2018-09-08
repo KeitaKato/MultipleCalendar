@@ -6,6 +6,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.eiga_.readingcalendar.data.PlanData;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class DBModelBase {
 
     DBOpenHelper helper = null;
@@ -42,6 +47,7 @@ public abstract class DBModelBase {
     }
 
     abstract String readCursor(Cursor cursor);
+    abstract List<PlanData> readCursorAll (Cursor cursor);
 
     protected void executeSql(String sql, String[] bindStr) {
 

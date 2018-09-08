@@ -26,8 +26,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             + "created_at DEFAULT CURRENT_TIMESTAMP,"
             + "updated_at"
             + ");";
-    private static final String MYSET_PLAN_TABLE_NAME = "myset_plans";
-    private static final String MYSET_PLAN_CREATE_SQL = "CREATE TABLE myset_plans ("
+    private static final String PRESET_PLAN_TABLE_NAME = "myset_plans";
+    private static final String PRESET_PLAN_CREATE_SQL = "CREATE TABLE myset_plans ("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "plan_title TEXT,"
             + "plan_type TEXT,"
@@ -41,7 +41,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             + "updated_at"
             + ");";
     private static final String READING_DATA_TABLE_NAME = "reading_datas";
-    private static final String READING_DATA_CREATE_SQL = "CREATE TABLE myset_plans ("
+    private static final String READING_DATA_CREATE_SQL = "CREATE TABLE reading_datas ("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "data_title TEXT,"
             + "data_url TEXT,"
@@ -58,7 +58,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // テーブル作成
         db.execSQL(CALENDER_CREATE_SQL);
-        db.execSQL(MYSET_PLAN_CREATE_SQL);
+        db.execSQL(PRESET_PLAN_CREATE_SQL);
         db.execSQL(READING_DATA_CREATE_SQL);
     }
 
@@ -66,7 +66,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // アップデート
         db.execSQL("DROP TABLE IF EXISTS " + CALENDER_TABLE_NAME + ";");
-        db.execSQL("DROP TABLE IF EXISTS " + MYSET_PLAN_TABLE_NAME + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + PRESET_PLAN_TABLE_NAME + ";");
         db.execSQL("DROP TABLE IF EXISTS " + READING_DATA_TABLE_NAME + ";");
         onCreate(db);
     }

@@ -3,22 +3,36 @@ package com.example.eiga_.readingcalendar.databases;
 import android.content.Context;
 import android.database.Cursor;
 
-public class MysetPlanDBModel extends DBModelBase {
+import com.example.eiga_.readingcalendar.data.PlanData;
 
-    final String MYSET_PLAN_TABLE_NAME = "myset_plans";
+import java.util.ArrayList;
+import java.util.List;
 
-    MysetPlanDBModel(Context context) {
+public class PresetPlanDBModel extends DBModelBase {
+
+    final String PRESET_PLAN_TABLE_NAME = "myset_plans";
+
+    public PresetPlanDBModel(Context context) {
         super(context);
     }
 
     @Override
     public String searchData(String column, String keyword) {
         //SQL文
-        String sql = "SELECT * FROM " + MYSET_PLAN_TABLE_NAME + " WHERE ? = ?";
+        String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME + " WHERE ? = ?";
         //SQL文実行
         String[] bindStr = new String[]{column, keyword};
 
         Cursor cursor = super.executeSearchSql(sql,bindStr);
+        return readCursor(cursor);
+    }
+
+    @Override
+    public String searchData() {
+        //SQL
+        String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME;
+        //SQL実行
+        Cursor cursor = super.executeSearchSql(sql);
         return readCursor(cursor);
     }
 
@@ -35,8 +49,38 @@ public class MysetPlanDBModel extends DBModelBase {
         return sb.toString();
     }
 
+    @Override
+    List<PlanData> readCursorAll (Cursor cursor) {
+        // カーソル位置を先頭に
+        cursor.moveToFirst();
+        // 返すlistを生成。
+        List<PlanData> planDataList = new ArrayList<>();
+        // 次の行がなくなるまでデータを取り出す。
+        try {
+            while (cursor.moveToNext()) {
+                // PlanDataオブジェクトを生成。
+                PlanData planData = new PlanData();
+                // 各データを格納
+                planData.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
+                planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
+                planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
+                planData.setUseTime(cursor.getInt(cursor.getColumnIndex("use_time")));
+                planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
+                planData.setIncome(cursor.getInt(cursor.getColumnIndex("income")));
+                planData.setSpending(cursor.getInt(cursor.getColumnIndex("spending")));
+                planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
+                // Listに追加
+                planDataList.add(planData);
+            }
+        } finally {
+            cursor.close();
+        }
+        return planDataList;
+    }
+
     public void insertData(String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending, String memoText) {
-        String sql = "INSERT INTO " + MYSET_PLAN_TABLE_NAME
+        String sql = "INSERT INTO " + PRESET_PLAN_TABLE_NAME
                 + "(plan_title, plan_type, time_zone, income, spending) values(?,?,?,?,?);";
         String[] bindStr = new String[] {
                 planTitle,
@@ -52,7 +96,7 @@ public class MysetPlanDBModel extends DBModelBase {
     }
 
     public void updateData(String column, String keyword, String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending, String memoText) {
-        String sql = "UPDATE " + MYSET_PLAN_TABLE_NAME
+        String sql = "UPDATE " + PRESET_PLAN_TABLE_NAME
                 + " SET plan_title = ?, plan_type = ?, time_zone = ?, income = ?, spending = ? "
                 + "WHERE ? = ? ;";
         String[] bindStr = new String[] {
@@ -72,7 +116,7 @@ public class MysetPlanDBModel extends DBModelBase {
 
     @Override
     void deleteData(String column, String keyword) {
-        String sql = "DELETE FROM " + MYSET_PLAN_TABLE_NAME
+        String sql = "DELETE FROM " + PRESET_PLAN_TABLE_NAME
                 + " WHERE ? = ?;";
         String[] bindStr = new String[]{
                 column,
