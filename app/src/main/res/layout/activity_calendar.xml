@@ -172,7 +172,7 @@
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_gravity="center"
-            android:text="@string/add_preset_title"/>
+            android:text="@string/add_preset_button"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddPresetFab"
@@ -200,7 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_gravity="center"
-            android:text="@string/add_preset_title"/>
+            android:text="@string/add_camera_button"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddCameraFab"
@@ -228,7 +228,7 @@
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_gravity="center"
-            android:text="@string/add_preset_title"/>
+            android:text="@string/add_multiple_plans_button"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddPlansFab"

@@ -12,7 +12,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "calenderDB.db";
     private static final String CALENDER_TABLE_NAME = "calenders";
     private static final String CALENDER_CREATE_SQL = "CREATE TABLE calenders ("
-            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "day TEXT NOT NULL,"
             + "plan_title TEXT,"
             + "plan_type TEXT,"
@@ -26,9 +26,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             + "created_at DEFAULT CURRENT_TIMESTAMP,"
             + "updated_at"
             + ");";
-    private static final String PRESET_PLAN_TABLE_NAME = "myset_plans";
-    private static final String PRESET_PLAN_CREATE_SQL = "CREATE TABLE myset_plans ("
-            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+    private static final String PRESET_PLAN_TABLE_NAME = "preset_plans";
+    private static final String PRESET_PLAN_CREATE_SQL = "CREATE TABLE " + PRESET_PLAN_TABLE_NAME + "("
+            + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "plan_title TEXT,"
             + "plan_type TEXT,"
             + "start_time TEXT,"
@@ -42,7 +42,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             + ");";
     private static final String READING_DATA_TABLE_NAME = "reading_datas";
     private static final String READING_DATA_CREATE_SQL = "CREATE TABLE reading_datas ("
-            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "data_title TEXT,"
             + "data_url TEXT,"
             + "data_days TEXT,"

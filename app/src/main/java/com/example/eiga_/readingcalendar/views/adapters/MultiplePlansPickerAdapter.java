@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CalendarAdapter extends BaseAdapter {
+public class MultiplePlansPickerAdapter extends BaseAdapter {
     private List<Date> dateArray = new ArrayList();
     private Context mContext;
     private DateManager mDateManager;
@@ -29,7 +29,7 @@ public class CalendarAdapter extends BaseAdapter {
         public TextView dateText;
     }
 
-    public CalendarAdapter(Context context) {
+    public MultiplePlansPickerAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mDateManager = new DateManager();
@@ -43,19 +43,20 @@ public class CalendarAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        MultiplePlansPickerAdapter.ViewHolder holder;
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.calendar_cell, null);
-            holder = new ViewHolder();
+            holder = new MultiplePlansPickerAdapter.ViewHolder();
             holder.dateText = convertView.findViewById(R.id.dateText);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder)convertView.getTag();
+            holder = (MultiplePlansPickerAdapter.ViewHolder)convertView.getTag();
         }
 
         //セルのサイズを指定
         float dp = mContext.getResources().getDisplayMetrics().density;
-        AbsListView.LayoutParams params = new AbsListView.LayoutParams(parent.getWidth()/7 - (int)dp, (parent.getHeight() - (int)dp * mDateManager.getWeeks() ) / mDateManager.getWeeks());
+        int celSize = parent.getWidth()/7 - (int)dp;
+        AbsListView.LayoutParams params = new AbsListView.LayoutParams(celSize, (celSize * mDateManager.getWeeks() ) / mDateManager.getWeeks());
         convertView.setLayoutParams(params);
 
         //日付のみ表示させる

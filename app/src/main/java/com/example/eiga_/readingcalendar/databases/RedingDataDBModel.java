@@ -17,14 +17,20 @@ public class RedingDataDBModel extends DBModelBase {
 
     @Override
     public String searchData(String column, String keyword) {
-        String sql = "SELECT * FROM " + READING_DATA_TABLE_NAME + " WHERE ? = ?";
-        // 検索結果をcursorから読み込んで返す
+        Cursor cursor = null;
+        try {
+            //SQL文
+            String sql = "SELECT * FROM " + READING_DATA_TABLE_NAME + " WHERE ? = ?";
+            //SQL文実行
+            String[] bindStr = new String[]{column, keyword};
 
-        String[] bindStr = new String[]{column, keyword};
-
-        Cursor cursor = super.executeSearchSql(sql,bindStr);
-        return readCursor(cursor);
-
+            cursor = db.rawQuery(sql, bindStr);
+            return readCursor(cursor);
+        } finally {
+            if( cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override

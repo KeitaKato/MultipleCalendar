@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AddMultiplePlansActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/multiplePlanToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/multipleWeekLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/whiteColor"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multiplePlanToolbar" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="1dp"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="日"
+            android:textAlignment="center"
+            android:textColor="@color/redColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="月"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="火"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="水"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="木"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="金"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="土"
+            android:textAlignment="center"
+            android:textColor="@color/blueColor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/multipleCalendarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/grayColor"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multipleWeekLayout">
+
+        <GridView
+            android:id="@+id/multipleCalendarGridView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="0.8dp"
+            android:layout_weight="15"
+            android:horizontalSpacing="1dp"
+            android:numColumns="7"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/multiplePickerTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multipleCalendarLayout" />
+
+    <TextView
+        android:id="@+id/presetSenderTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multiplePickerTextView" />
+
+
+</android.support.constraint.ConstraintLayout>

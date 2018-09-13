@@ -2,6 +2,8 @@ package com.example.eiga_.readingcalendar.databases;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.widget.LinearLayout;
+import android.widget.SimpleCursorAdapter;
 
 import com.example.eiga_.readingcalendar.data.PlanData;
 
@@ -10,7 +12,7 @@ import java.util.List;
 
 public class PresetPlanDBModel extends DBModelBase {
 
-    final String PRESET_PLAN_TABLE_NAME = "myset_plans";
+    private final String PRESET_PLAN_TABLE_NAME = "preset_plans";
 
     public PresetPlanDBModel(Context context) {
         super(context);
@@ -18,22 +20,44 @@ public class PresetPlanDBModel extends DBModelBase {
 
     @Override
     public String searchData(String column, String keyword) {
-        //SQL文
-        String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME + " WHERE ? = ?";
-        //SQL文実行
-        String[] bindStr = new String[]{column, keyword};
+        Cursor cursor = null;
+        try {
+            //SQL文
+            String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME + " WHERE ? = ?";
+            //SQL文実行
+            String[] bindStr = new String[]{column, keyword};
 
-        Cursor cursor = super.executeSearchSql(sql,bindStr);
-        return readCursor(cursor);
+            cursor = db.rawQuery(sql, bindStr);
+            return readCursor(cursor);
+        } finally {
+            if( cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
-    @Override
-    public String searchData() {
-        //SQL
-        String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME;
-        //SQL実行
-        Cursor cursor = super.executeSearchSql(sql);
-        return readCursor(cursor);
+    public List<PlanData> searchDataAll() {
+        Cursor cursor = null;
+        try {
+            //SQL
+            String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME;
+            //SQL実行
+            cursor = db.rawQuery(sql, null);
+            return readCursorAll(cursor);
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    public Cursor getSearchDataCursor() {
+            // SQL
+            String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME;
+            // SQL実行
+            Cursor cursor = db.rawQuery(sql, null);
+
+            return cursor;
     }
 
     @Override
@@ -55,13 +79,11 @@ public class PresetPlanDBModel extends DBModelBase {
         cursor.moveToFirst();
         // 返すlistを生成。
         List<PlanData> planDataList = new ArrayList<>();
-        // 次の行がなくなるまでデータを取り出す。
-        try {
             while (cursor.moveToNext()) {
                 // PlanDataオブジェクトを生成。
                 PlanData planData = new PlanData();
                 // 各データを格納
-                planData.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                planData.setId(cursor.getInt(cursor.getColumnIndex("_id")));
                 planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
                 planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
                 planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
@@ -73,15 +95,12 @@ public class PresetPlanDBModel extends DBModelBase {
                 // Listに追加
                 planDataList.add(planData);
             }
-        } finally {
-            cursor.close();
-        }
         return planDataList;
     }
 
     public void insertData(String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending, String memoText) {
         String sql = "INSERT INTO " + PRESET_PLAN_TABLE_NAME
-                + "(plan_title, plan_type, time_zone, income, spending) values(?,?,?,?,?);";
+                + "(plan_title, plan_type, start_time,end_time,use_time,income,spending,memo) values(?,?,?,?,?,?,?,?);";
         String[] bindStr = new String[] {
                 planTitle,
                 planType,

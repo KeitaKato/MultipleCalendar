@@ -87,6 +87,7 @@ public class CalendarActivity extends AppCompatActivity{
                 titleText.setText(mCalendarAdapter.getTitle());
             }
         });
+
         calendarGridView = findViewById(R.id.calendarGridView);
         mCalendarAdapter = new CalendarAdapter(this);
         calendarGridView.setAdapter(mCalendarAdapter);
@@ -199,7 +200,8 @@ public class CalendarActivity extends AppCompatActivity{
     View.OnClickListener PlansButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            Intent intent = new Intent(CalendarActivity.this, AddMultiplePlansActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -239,8 +241,8 @@ public class CalendarActivity extends AppCompatActivity{
     }
 
     private void fabOpen(int iconWhile,int iconWhileMini) {
-        presetLayout.setVisibility(View.VISIBLE);
-        ObjectAnimator animator = ObjectAnimator.ofFloat(presetLayout, "translationY",-iconWhile );
+        plansLayout.setVisibility(View.VISIBLE);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(plansLayout, "translationY",-iconWhile );
         animator.setDuration(200);
         animator.start();
 
@@ -249,8 +251,8 @@ public class CalendarActivity extends AppCompatActivity{
         animator.setDuration(200);
         animator.start();
 
-        plansLayout.setVisibility(View.VISIBLE);
-        animator = ObjectAnimator.ofFloat(plansLayout, "translationY", -iconWhile * 3 + iconWhileMini + iconWhileMini);
+        presetLayout.setVisibility(View.VISIBLE);
+        animator = ObjectAnimator.ofFloat(presetLayout, "translationY", -iconWhile * 3 + iconWhileMini + iconWhileMini);
         animator.setDuration(200);
         animator.start();
 

@@ -19,13 +19,21 @@ public class CalendarDBModel extends DBModelBase{
     }
 
     @Override
-    public String searchData(String column, String keyword){
+    public String searchData(String column, String keyword) {
+        Cursor cursor = null;
+        try {
             //SQL文
             String sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE ? = ?";
             //SQL文実行
             String[] bindStr = new String[]{column, keyword};
-        Cursor cursor = super.executeSearchSql(sql,bindStr);
-        return readCursor(cursor);
+
+            cursor = db.rawQuery(sql, bindStr);
+            return readCursor(cursor);
+        } finally {
+            if( cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override

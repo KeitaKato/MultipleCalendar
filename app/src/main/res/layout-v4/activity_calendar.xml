@@ -160,7 +160,7 @@
         android:visibility="gone"/>
 
     <LinearLayout
-        android:id="@+id/AddPresetLayout"
+        android:id="@+id/AddPlansLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -169,19 +169,19 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/AddPresetText"
+            android:id="@+id/AddPlansText"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_gravity="center"
-            android:text="@string/add_preset_title"/>
+            android:text="@string/add_multiple_plans_button"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/AddPresetFab"
+            android:id="@+id/AddPlansFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/fab_margin_mini_bottom"
+            android:layout_marginBottom="@dimen/fab_margin_mini_end"
             android:layout_marginEnd="@dimen/fab_margin_mini_end"
-            android:src="@android:drawable/ic_menu_today"
+            android:src="@android:drawable/ic_menu_edit"
             app:backgroundTint="@color/colorPrimary"
             app:fabSize="mini"/>
 
@@ -201,7 +201,7 @@
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_gravity="center"
-            android:text="@string/add_preset_title"/>
+            android:text="@string/add_camera_button"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddCameraFab"
@@ -216,7 +216,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/AddPlansLayout"
+        android:id="@+id/AddPresetLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -225,23 +225,24 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/AddPlansText"
+            android:id="@+id/AddPresetText"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_gravity="center"
-            android:text="@string/add_preset_title"/>
+            android:text="@string/add_preset_button"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/AddPlansFab"
+            android:id="@+id/AddPresetFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/fab_margin_mini_end"
+            android:layout_marginBottom="@dimen/fab_margin_mini_bottom"
             android:layout_marginEnd="@dimen/fab_margin_mini_end"
-            android:src="@android:drawable/ic_menu_edit"
+            android:src="@android:drawable/ic_menu_today"
             app:backgroundTint="@color/colorPrimary"
             app:fabSize="mini"/>
 
     </LinearLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"

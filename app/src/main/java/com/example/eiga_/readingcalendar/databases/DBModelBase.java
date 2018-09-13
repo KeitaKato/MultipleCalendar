@@ -29,23 +29,6 @@ public abstract class DBModelBase {
 
     abstract String searchData(String column, String keyword);
 
-    protected Cursor executeSearchSql(String sql, String[] bindStr) {
-        // Cursorを確実にcloseするために、try{}～finally{}する
-        Cursor cursor = null;
-        try {
-            //SQL文実行
-            cursor = db.rawQuery(sql, bindStr);
-            // 検索結果をcursorから読み込んで返す
-            return cursor;
-        } finally {
-            // Cursorをclose
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-
-    }
-
     abstract String readCursor(Cursor cursor);
     abstract List<PlanData> readCursorAll (Cursor cursor);
 

@@ -28,7 +28,8 @@
             android:exported="false" />
 
         <activity android:name=".activities.AddPresetActivity" />
-        <activity android:name=".activities.PresetListActivity"></activity>
+        <activity android:name=".activities.PresetListActivity" />
+        <activity android:name=".activities.AddMultiplePlansActivity"></activity>
     </application>
 
 </manifest>
