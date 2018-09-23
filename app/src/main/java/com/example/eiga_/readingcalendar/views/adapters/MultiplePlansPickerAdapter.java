@@ -100,8 +100,12 @@ public class MultiplePlansPickerAdapter extends BaseAdapter {
 
     //表示月を取得
     public String getTitle() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM",Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat("MM月",Locale.US);
         return format.format(mDateManager.getmCalendar().getTime());
+    }
+
+    public List<Date> getDays() {
+        return dateArray;
     }
 
     //翌月表示

@@ -44,11 +44,7 @@ public class DateManager {
     public boolean isCurrentMonth(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM", Locale.US);
         String currentMonth = format.format((mCalendar.getTime()));
-        if (currentMonth.equals(format.format(date))){
-            return true;
-        } else {
-            return false;
-        }
+        return currentMonth.equals(format.format(date));
     }
 
     //週数を取得
