@@ -45,7 +45,7 @@ public class MultiplePlansPickerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         MultiplePlansPickerAdapter.ViewHolder holder;
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.calendar_cell, null);
+            convertView = mLayoutInflater.inflate(R.layout.multiple_plans_picker_cell, null);
             holder = new MultiplePlansPickerAdapter.ViewHolder();
             holder.dateText = convertView.findViewById(R.id.dateText);
             convertView.setTag(holder);
@@ -56,7 +56,7 @@ public class MultiplePlansPickerAdapter extends BaseAdapter {
         //セルのサイズを指定
         float dp = mContext.getResources().getDisplayMetrics().density;
         int celSize = parent.getWidth()/7 - (int)dp;
-        AbsListView.LayoutParams params = new AbsListView.LayoutParams(celSize, (celSize * mDateManager.getWeeks() ) / mDateManager.getWeeks());
+        AbsListView.LayoutParams params = new AbsListView.LayoutParams(celSize, (parent.getHeight() - (int)dp * mDateManager.getWeeks() ) / mDateManager.getWeeks());
         convertView.setLayoutParams(params);
 
         //日付のみ表示させる
@@ -95,7 +95,7 @@ public class MultiplePlansPickerAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return dateArray.get(position);
     }
 
     //表示月を取得
