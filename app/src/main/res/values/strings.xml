@@ -18,5 +18,8 @@
     <string name="cancel_Text">キャンセル</string>
     <string name="storage_text">保存</string>
     <string name="add_preset_text">プレセットを追加する</string>
+    <string name="plan_title_text">予定名</string>
+    <string name="title_edit_hint">予定を追加</string>
+    <string name="read_button_text">読み込み</string>
 
 </resources>
