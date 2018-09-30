@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -21,7 +22,7 @@ import java.util.List;
 
 import static com.example.eiga_.readingcalendar.activities.AddMultiplePlansActivity.PRESETLIST_REQ_CODE;
 
-public class PlansListAdapter extends ArrayAdapter<PlanData> {
+public class PlansListAdapter extends BaseAdapter {
     private int mResource;
     private List<PlanData> mItems;
     private LayoutInflater mInflater;
@@ -42,9 +43,8 @@ public class PlansListAdapter extends ArrayAdapter<PlanData> {
     }
 
     public PlansListAdapter(@NonNull Context context, int resource, List<PlanData> items) {
-        super(context, resource, items);
 
-        context = context;
+        mContext = context;
         mResource = resource;
         mItems = items;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -69,6 +69,7 @@ public class PlansListAdapter extends ArrayAdapter<PlanData> {
             holder.income = convertView.findViewById(R.id.incomePriceText);
             holder.spending = convertView.findViewById(R.id.spendingPriceText);
             holder. memo = convertView.findViewById(R.id.memoText);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -100,6 +101,11 @@ public class PlansListAdapter extends ArrayAdapter<PlanData> {
     @Override
     public int getCount() {
         return mItems.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return position;
     }
 
     @Override

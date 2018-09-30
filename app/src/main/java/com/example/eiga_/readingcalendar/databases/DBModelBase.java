@@ -26,10 +26,6 @@ public abstract class DBModelBase {
     public void createTacle() {
 
     }
-
-    abstract String searchData(String column, String keyword);
-
-    abstract String readCursor(Cursor cursor);
     abstract List<PlanData> readCursorAll (Cursor cursor);
 
     protected void executeSql(String sql, String[] bindStr) {

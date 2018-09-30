@@ -18,17 +18,18 @@ public class PresetPlanDBModel extends DBModelBase {
         super(context);
     }
 
-    @Override
-    public String searchData(String column, String keyword) {
+    public PlanData searchData(String column, String keyword) {
         Cursor cursor = null;
+        PlanData planData;
         try {
             //SQL文
-            String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME + " WHERE ? = ?";
+            String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME + " WHERE ?=?";
             //SQL文実行
             String[] bindStr = new String[]{column, keyword};
 
             cursor = db.rawQuery(sql, bindStr);
-            return readCursor(cursor);
+            planData = readCursor(cursor);
+            return planData;
         } finally {
             if( cursor != null) {
                 cursor.close();
@@ -60,17 +61,22 @@ public class PresetPlanDBModel extends DBModelBase {
             return cursor;
     }
 
-    @Override
-    String readCursor(Cursor cursor) {
+    private PlanData readCursor(Cursor cursor) {
         //カーソル開始位置を先頭にする
-        cursor.moveToFirst();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i <= cursor.getCount(); i++) {
-            //SQL文の結果から、必要な値を取り出す。
-            sb.append(cursor.getString(1));//処理
-            cursor.moveToNext();
+        PlanData planData = new PlanData();
+            // 各データを格納
+        while (cursor.moveToNext()) {
+            planData.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
+            planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
+            planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
+            planData.setUseTime(cursor.getInt(cursor.getColumnIndex("use_time")));
+            planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
+            planData.setIncome(cursor.getInt(cursor.getColumnIndex("income")));
+            planData.setSpending(cursor.getInt(cursor.getColumnIndex("spending")));
+            planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
         }
-        return sb.toString();
+        return planData;
     }
 
     @Override

@@ -23,12 +23,14 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.example.eiga_.readingcalendar.R;
 import com.example.eiga_.readingcalendar.services.ImageGetService;
 import com.example.eiga_.readingcalendar.services.TessTwoIntentService;
 import com.example.eiga_.readingcalendar.utils.MyContext;
 import com.example.eiga_.readingcalendar.utils.PxDpUtil;
 import com.example.eiga_.readingcalendar.views.adapters.CalendarAdapter;
+import com.facebook.stetho.Stetho;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,6 +67,7 @@ public class CalendarActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_calendar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             checkOverlayPermission();

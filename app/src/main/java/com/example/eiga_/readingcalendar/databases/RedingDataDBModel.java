@@ -15,7 +15,6 @@ public class RedingDataDBModel extends DBModelBase {
         super(context);
     }
 
-    @Override
     public String searchData(String column, String keyword) {
         Cursor cursor = null;
         try {
@@ -32,8 +31,6 @@ public class RedingDataDBModel extends DBModelBase {
             }
         }
     }
-
-    @Override
     String readCursor(Cursor cursor) {
         //カーソル開始位置を先頭にする
         cursor.moveToFirst();

@@ -18,7 +18,6 @@ public class CalendarDBModel extends DBModelBase{
         this.context = context;
     }
 
-    @Override
     public String searchData(String column, String keyword) {
         Cursor cursor = null;
         try {
@@ -36,7 +35,6 @@ public class CalendarDBModel extends DBModelBase{
         }
     }
 
-    @Override
     String readCursor(Cursor cursor) {
         //カーソル開始位置を先頭にする
         cursor.moveToFirst();
@@ -57,20 +55,12 @@ public class CalendarDBModel extends DBModelBase{
     public  void insertData(String day, String planTitle){
 
         PresetPlanDBModel PresetPlanDBModel = new PresetPlanDBModel(context);
-        String mysetPlanId = PresetPlanDBModel.searchData("plan_title", planTitle);
 
         String sql;
         List<String> bindStr = new ArrayList<>();
-        if (mysetPlanId != null){
-            sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title, myset_plan_id) values(?,?,?);";
-            bindStr.add(day);
-            bindStr.add(planTitle);
-            bindStr.add(mysetPlanId);
-        } else {
             sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title) values(?,?);";
             bindStr.add(day);
             bindStr.add(planTitle);
-        }
 
 
         super.executeSql(sql,bindStr.toArray(new String[bindStr.size()]));

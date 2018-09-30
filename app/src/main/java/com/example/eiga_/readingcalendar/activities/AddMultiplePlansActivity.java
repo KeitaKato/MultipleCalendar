@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.example.eiga_.readingcalendar.R;
 import com.example.eiga_.readingcalendar.data.PlanData;
 import com.example.eiga_.readingcalendar.data.PlansPickerData;
+import com.example.eiga_.readingcalendar.databases.PresetPlanDBModel;
 import com.example.eiga_.readingcalendar.databinding.ActivityAddMultiplePlansBinding;
 import com.example.eiga_.readingcalendar.views.adapters.MultiplePlansPickerAdapter;
 import com.example.eiga_.readingcalendar.views.adapters.PlansListAdapter;
@@ -32,11 +33,15 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
     private List<Date> days = new ArrayList<>();
     private PlansPickerData mPickerData = new PlansPickerData("日付を選択");
     private ArrayList<PlanData> listItems;
+    private PresetPlanDBModel presetPlanDBModel;
+    private PlansListAdapter plansListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_multiple_plans);
+
+        presetPlanDBModel = new PresetPlanDBModel(AddMultiplePlansActivity.this);
 
         ActivityAddMultiplePlansBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_multiple_plans);
         binding.setPlansPicker(mPickerData);
@@ -54,16 +59,16 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
 
         // リストビューを取得。
         ListView listView = findViewById(R.id.plansListView);
-        listItems = new ArrayList<>();
-        PlansListAdapter plansListAdapter = new PlansListAdapter(AddMultiplePlansActivity.this, R.layout.planslist_item,listItems);
-        listView.setAdapter(plansListAdapter);
+
 
         // リストビューにクリックイベント設定。
-        listView.setOnItemClickListener(listViewItemListener);
+        listView.setOnItemClickListener(new ListViewItemListener());
 
-        // listViewにフッターを追加
-        View footer = getLayoutInflater().inflate(R.layout.planslist_item,null);
-        listView.addFooterView(footer);
+        listItems = new ArrayList<>();
+        PlanData planData = new PlanData();
+        listItems.add(planData);
+        plansListAdapter = new PlansListAdapter(AddMultiplePlansActivity.this, R.layout.planslist_item,listItems);
+        listView.setAdapter(plansListAdapter);
 
     }
 
@@ -99,19 +104,33 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
        }
     }
 
-    AdapterView.OnItemClickListener listViewItemListener = new AdapterView.OnItemClickListener() {
+    class ListViewItemListener implements AdapterView.OnItemClickListener {
 
 
         @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
          switch (view.getId()) {
                 case R.id.readPresetButton:
-
                     // presetListActivityを呼び出す。
                     Intent presetListIntent = new Intent(AddMultiplePlansActivity.this, PresetListActivity.class);
-                        startActivityForResult(presetListIntent, PRESETLIST_REQ_CODE);
+                    presetListIntent.putExtra("ITEM_POSITION",position);
+                    startActivityForResult(presetListIntent, PRESETLIST_REQ_CODE);
                     break;
             }
         }
-    };
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == PRESETLIST_REQ_CODE && resultCode == RESULT_OK) {
+            int position = intent.getIntExtra("ITEM_POSITION", -1);
+            PlanData planData = presetPlanDBModel.searchData("_id",intent.getStringExtra("PRESET_PLAN_ID"));
+            listItems.set(position,planData);
+            if (position == listItems.size() -1) {
+                planData = new PlanData();
+                listItems.add(position,planData);
+            }
+            plansListAdapter.notifyDataSetChanged();
+        }
+    }
 }
