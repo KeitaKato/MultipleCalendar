@@ -84,7 +84,7 @@ public class PlansListAdapter extends BaseAdapter {
         holder.type.setText(item.getType());
         holder.income.setText(String.valueOf(item.getIncome()));
         holder.spending.setText(String.valueOf(item.getSpending()));
-        holder.spending.setText(item.getMemo());
+        holder.memo.setText(item.getMemo());
 
         // ボタンにクリックリスナーを設定。
         holder.readButton.setOnClickListener(new View.OnClickListener() {

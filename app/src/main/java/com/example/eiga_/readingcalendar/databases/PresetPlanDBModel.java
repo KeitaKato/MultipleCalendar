@@ -23,11 +23,9 @@ public class PresetPlanDBModel extends DBModelBase {
         PlanData planData;
         try {
             //SQL文
-            String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME + " WHERE ?=?";
+            String sql = "SELECT * FROM " + PRESET_PLAN_TABLE_NAME + " WHERE " + column + "=" + keyword; // sessionArgsがなぜか使えない
             //SQL文実行
-            String[] bindStr = new String[]{column, keyword};
-
-            cursor = db.rawQuery(sql, bindStr);
+            cursor = db.rawQuery(sql, null);
             planData = readCursor(cursor);
             return planData;
         } finally {
@@ -70,11 +68,12 @@ public class PresetPlanDBModel extends DBModelBase {
             planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
             planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
             planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
-            planData.setUseTime(cursor.getInt(cursor.getColumnIndex("use_time")));
+            planData.setUseTime(String.valueOf(cursor.getInt(cursor.getColumnIndex("use_time"))));
             planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
-            planData.setIncome(cursor.getInt(cursor.getColumnIndex("income")));
-            planData.setSpending(cursor.getInt(cursor.getColumnIndex("spending")));
+            planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
+            planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
             planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
+            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
         }
         return planData;
     }
@@ -93,11 +92,12 @@ public class PresetPlanDBModel extends DBModelBase {
                 planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
                 planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
                 planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
-                planData.setUseTime(cursor.getInt(cursor.getColumnIndex("use_time")));
+                planData.setUseTime(String.valueOf(cursor.getInt(cursor.getColumnIndex("use_time"))));
                 planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
-                planData.setIncome(cursor.getInt(cursor.getColumnIndex("income")));
-                planData.setSpending(cursor.getInt(cursor.getColumnIndex("spending")));
+                planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
+                planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
                 planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
+                planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
                 // Listに追加
                 planDataList.add(planData);
             }

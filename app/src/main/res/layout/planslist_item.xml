@@ -57,12 +57,14 @@
             android:layout_height="wrap_content"
             android:text="@string/start_time_text" />
 
-        <TextView
+        <EditText
             android:id="@+id/startTimeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,12 +80,14 @@
             android:layout_height="wrap_content"
             android:text="@string/end_time_text" />
 
-        <TextView
+        <EditText
             android:id="@+id/endTimeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <LinearLayout
@@ -99,12 +103,14 @@
             android:layout_height="wrap_content"
             android:text="@string/use_time_text" />
 
-        <TextView
+        <EditText
             android:id="@+id/useTimeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 
@@ -121,13 +127,14 @@
             android:layout_height="wrap_content"
             android:text="@string/type_text" />
 
-        <TextView
+        <EditText
             android:id="@+id/typeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text=""
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <LinearLayout
@@ -143,13 +150,14 @@
             android:layout_height="wrap_content"
             android:text="@string/income_price_text" />
 
-        <TextView
+        <EditText
             android:id="@+id/incomePriceText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/zero_enn"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <LinearLayout
@@ -165,13 +173,14 @@
             android:layout_height="wrap_content"
             android:text="@string/spending_price_text" />
 
-        <TextView
+        <EditText
             android:id="@+id/spendingPriceText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/zero_enn"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
     </LinearLayout>
 
     <EditText

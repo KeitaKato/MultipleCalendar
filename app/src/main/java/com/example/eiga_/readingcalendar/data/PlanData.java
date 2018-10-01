@@ -5,16 +5,18 @@ public class PlanData {
     private String title;
     private String startTime;
     private String endTime;
-    private int useTime;
+    private String useTime;
     private String type;
-    private int income;
-    private int spending;
+    private String income;
+    private String spending;
     private String memo;
+    private String presetId;
+    private String readingId;
 
     public PlanData() {
     }
 
-    public PlanData(int id, String title,String startTime,String endTime,int useTime,String type,int income,int spending,String memo) {
+    public PlanData(int id, String title, String startTime, String endTime, String useTime, String type, String income, String spending, String memo) {
         this.id = id;
         this.title = title;
         this.startTime = startTime;
@@ -50,11 +52,11 @@ public class PlanData {
         this.endTime = endTime;
     }
 
-    public int getUseTime() {
+    public String getUseTime() {
         return useTime;
     }
 
-    public void setUseTime(int useTime) {
+    public void setUseTime(String useTime) {
         this.useTime = useTime;
     }
 
@@ -66,19 +68,19 @@ public class PlanData {
         this.type = type;
     }
 
-    public int getIncome() {
+    public String getIncome() {
         return income;
     }
 
-    public void setIncome(int income) {
+    public void setIncome(String income) {
         this.income = income;
     }
 
-    public int getSpending() {
+    public String getSpending() {
         return spending;
     }
 
-    public void setSpending(int spending) {
+    public void setSpending(String spending) {
         this.spending = spending;
     }
 
@@ -96,5 +98,21 @@ public class PlanData {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPresetId() {
+        return presetId;
+    }
+
+    public void setPresetId(String presetId) {
+        this.presetId = presetId;
+    }
+
+    public String getReadingId() {
+        return readingId;
+    }
+
+    public void setReadingId(String readingId) {
+        this.readingId = readingId;
     }
 }

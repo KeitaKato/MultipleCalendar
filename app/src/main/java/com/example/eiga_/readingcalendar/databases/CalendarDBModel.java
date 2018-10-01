@@ -13,38 +13,54 @@ public class CalendarDBModel extends DBModelBase{
     final String CALENDER_TABLE_NAME = "calenders";
     private final Context context;
 
-    CalendarDBModel(Context context) {
+    public CalendarDBModel(Context context) {
         super(context);
         this.context = context;
     }
 
-    public String searchData(String column, String keyword) {
+    public PlanData searchData(String column, String keyword) {
         Cursor cursor = null;
+        PlanData planData;
         try {
             //SQL文
-            String sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE ? = ?";
+            String sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE " + column + "=" + keyword; // sessionArgsがなぜか使えない
             //SQL文実行
-            String[] bindStr = new String[]{column, keyword};
-
-            cursor = db.rawQuery(sql, bindStr);
-            return readCursor(cursor);
+            cursor = db.rawQuery(sql, null);
+            planData = readCursor(cursor);
+            return planData;
         } finally {
-            if( cursor != null) {
+            if (cursor != null) {
                 cursor.close();
             }
         }
     }
 
-    String readCursor(Cursor cursor) {
+    public Cursor getSearchDataCursor(String column, String keyword) {
+        // SQL
+        String sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE " + column + " = " + "date('" + keyword + "');";
+        // SQL実行
+        Cursor cursor = db.rawQuery(sql, null);
+
+        return cursor;
+    }
+
+    private PlanData readCursor(Cursor cursor) {
         //カーソル開始位置を先頭にする
-        cursor.moveToFirst();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i <= cursor.getCount(); i++) {
-            //SQL文の結果から、必要な値を取り出す。
-            sb.append(cursor.getString(1));//処理
-            cursor.moveToNext();
+        PlanData planData = new PlanData();
+        // 各データを格納
+        while (cursor.moveToNext()) {
+            planData.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
+            planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
+            planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
+            planData.setUseTime(String.valueOf(cursor.getInt(cursor.getColumnIndex("use_time"))));
+            planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
+            planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
+            planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
+            planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
+            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
         }
-        return sb.toString();
+        return planData;
     }
 
     @Override
@@ -66,15 +82,20 @@ public class CalendarDBModel extends DBModelBase{
         super.executeSql(sql,bindStr.toArray(new String[bindStr.size()]));
     }
 
-    public void insertData(String day, String planTitle, String planType, String timeZone,String income, String spending){
-        String sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title, plan_type, time_zone, income, spending) values(?,?,?,?,?,?);";
+    public void insertData(String planDay, String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending,String memo, String presetId, String readingId){
+        String sql = "INSERT INTO " + CALENDER_TABLE_NAME
+                + " (plan_day, plan_title, plan_type, start_time, end_time, use_time, income, spending, memo, preset_id, reading_id) values(date('" + planDay + "'),?,?,?,?,?,?,?,?,?,?);";
         String[] bindStr = new String[]{
-                day,
                 planTitle,
                 planType,
-                timeZone,
+                startTime,
+                endTime,
+                useTime,
                 income,
-                spending
+                spending,
+                memo,
+                presetId,
+                readingId,
         };
 
         super.executeSql(sql,bindStr);

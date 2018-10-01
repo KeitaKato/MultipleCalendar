@@ -13,7 +13,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static final String CALENDER_TABLE_NAME = "calenders";
     private static final String CALENDER_CREATE_SQL = "CREATE TABLE calenders ("
             + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "day TEXT NOT NULL,"
+            + "plan_day TEXT NOT NULL,"
             + "plan_title TEXT,"
             + "plan_type TEXT,"
             + "start_time TEXT,"
@@ -21,8 +21,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             + "use_time INTEGER,"
             + "income INTEGER,"
             + "spending INTEGER,"
-            + "myset_plan_id INTEGER,"
-            + "reading_data_id INTEGER,"
+            + "memo TEXT,"
+            + "preset_id INTEGER,"
+            + "reading_id INTEGER,"
             + "created_at DEFAULT CURRENT_TIMESTAMP,"
             + "updated_at"
             + ");";

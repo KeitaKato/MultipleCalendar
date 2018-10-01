@@ -41,21 +41,21 @@ public class AddPresetActivity extends AppCompatActivity {
         toolbar.setTitle("プリセットプラン作成");
 
         TextView cancelButton = findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(cancelButtonListener);
+        cancelButton.setOnClickListener(new cancelButtonListener());
 
         TextView storage_button = findViewById(R.id.storage_button);
-        storage_button.setOnClickListener(storageButtonListener);
+        storage_button.setOnClickListener(new storageButtonListener());
 
     }
-    View.OnClickListener cancelButtonListener = new View.OnClickListener() {
+    class cancelButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();
         }
 
-    };
+    }
 
-    View.OnClickListener storageButtonListener = new View.OnClickListener() {
+    class storageButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             PresetPlanDBModel presetPlanDBModel = new PresetPlanDBModel(AddPresetActivity.this);
@@ -73,5 +73,5 @@ public class AddPresetActivity extends AppCompatActivity {
             Intent intent = new Intent(AddPresetActivity.this, PresetListActivity.class);
             startActivity(intent);
         }
-    };
+    }
 }

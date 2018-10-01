@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.eiga_.readingcalendar.R;
 import com.example.eiga_.readingcalendar.data.PlanData;
 import com.example.eiga_.readingcalendar.data.PlansPickerData;
+import com.example.eiga_.readingcalendar.databases.CalendarDBModel;
 import com.example.eiga_.readingcalendar.databases.PresetPlanDBModel;
 import com.example.eiga_.readingcalendar.databinding.ActivityAddMultiplePlansBinding;
 import com.example.eiga_.readingcalendar.views.adapters.MultiplePlansPickerAdapter;
@@ -32,7 +34,7 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
     private String month;
     private List<Date> days = new ArrayList<>();
     private PlansPickerData mPickerData = new PlansPickerData("日付を選択");
-    private ArrayList<PlanData> listItems;
+    private ArrayList<PlanData> plansListItems;
     private PresetPlanDBModel presetPlanDBModel;
     private PlansListAdapter plansListAdapter;
 
@@ -64,11 +66,18 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
         // リストビューにクリックイベント設定。
         listView.setOnItemClickListener(new ListViewItemListener());
 
-        listItems = new ArrayList<>();
+        // リストにアダプターを設定
+        plansListItems = new ArrayList<>();
         PlanData planData = new PlanData();
-        listItems.add(planData);
-        plansListAdapter = new PlansListAdapter(AddMultiplePlansActivity.this, R.layout.planslist_item,listItems);
+        plansListItems.add(planData);
+        plansListAdapter = new PlansListAdapter(AddMultiplePlansActivity.this, R.layout.planslist_item, plansListItems);
         listView.setAdapter(plansListAdapter);
+
+        TextView cancelButton = findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new cancelButtonListener());
+
+        TextView storage_button = findViewById(R.id.storage_button);
+        storage_button.setOnClickListener(new storageButtonListener());
 
     }
 
@@ -125,12 +134,57 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
         if (requestCode == PRESETLIST_REQ_CODE && resultCode == RESULT_OK) {
             int position = intent.getIntExtra("ITEM_POSITION", -1);
             PlanData planData = presetPlanDBModel.searchData("_id",intent.getStringExtra("PRESET_PLAN_ID"));
-            listItems.set(position,planData);
-            if (position == listItems.size() -1) {
-                planData = new PlanData();
-                listItems.add(position,planData);
+            if (position == plansListItems.size() - 1) {
+                plansListItems.add(position,planData);
             }
             plansListAdapter.notifyDataSetChanged();
+        }
+    }
+
+    class cancelButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
+
+    }
+
+    class storageButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            //CalendarDB
+            CalendarDBModel calendarDBModel = new CalendarDBModel(AddMultiplePlansActivity.this);
+            // 選択中の日付を取得。
+            SparseBooleanArray checked = multipleCalendarGridView.getCheckedItemPositions();
+            List<String> checkedList = new ArrayList<>();
+            for(int i = 0; i <= days.size(); i++) {
+
+                // 選択中の日付ならば、文字列に追加
+                if(checked.get(i)){
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                    String str = dateFormat.format(days.get(i));
+                    checkedList.add(str);
+                }
+            }
+
+            // 選択中の各日付ごとにリスト内の各プランをデータベースに追加
+            for (String planDay : checkedList) {
+                for (PlanData planItem : plansListItems) {
+                    String planTitle = planItem.getTitle();
+                    String planType = planItem.getType();
+                    String startTime = planItem.getStartTime();
+                    String endTime = planItem.getEndTime();
+                    String useTime = planItem.getUseTime();
+                    String income = planItem.getIncome();
+                    String spending = planItem.getSpending();
+                    String memo = planItem.getMemo();
+                    String presetId = planItem.getPresetId();
+                    String readingId = planItem.getReadingId();
+                    // calendarDBに追加
+                    calendarDBModel.insertData(planDay, planTitle, planType, startTime, endTime, useTime, income, spending, memo, presetId, readingId);
+                }
+            }
+            finish();
         }
     }
 }

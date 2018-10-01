@@ -1,16 +1,21 @@
 package com.example.eiga_.readingcalendar.views.adapters;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.example.eiga_.readingcalendar.R;
+import com.example.eiga_.readingcalendar.databases.CalendarDBModel;
 import com.example.eiga_.readingcalendar.managers.DateManager;
+import com.example.eiga_.readingcalendar.utils.MyContext;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +32,7 @@ public class CalendarAdapter extends BaseAdapter {
     //カスタムセルを拡張したらここでwidgetを定義
     private static class ViewHolder {
         public TextView dateText;
+        public ListView dateList;
     }
 
     public CalendarAdapter(Context context) {
@@ -48,6 +54,7 @@ public class CalendarAdapter extends BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.calendar_cell, null);
             holder = new ViewHolder();
             holder.dateText = convertView.findViewById(R.id.dateText);
+            holder.dateList = convertView.findViewById(R.id.dateList);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder)convertView.getTag();
@@ -61,6 +68,21 @@ public class CalendarAdapter extends BaseAdapter {
         //日付のみ表示させる
         SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.US);
         holder.dateText.setText(dateFormat.format(dateArray.get(position)));
+
+        // 予定を表示する
+
+        CalendarDBModel calendarDBModel = new CalendarDBModel(MyContext.getContext());
+
+        // 表示するカラム名
+        String[] from = {"plan_title"};
+        // バインドするViewリソース
+        int[] to = {R.id.plan_item_title};
+
+        SimpleDateFormat utfFormat = new SimpleDateFormat( "yyyy-MM-dd",Locale.US);
+        Cursor cursor = calendarDBModel.getSearchDataCursor("plan_day",utfFormat.format(dateArray.get(position)));
+        // adapterを設定
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(MyContext.getContext(), R.layout.calender_cell_list_item, cursor, from, to, 0);
+        holder.dateList.setAdapter(adapter);
 
         //当月以外のセルをグレーアウト
         if (mDateManager.isCurrentMonth(dateArray.get(position))){
