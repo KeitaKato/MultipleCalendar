@@ -14,13 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.eiga_.readingcalendar.R;
-import com.example.eiga_.readingcalendar.activities.AddMultiplePlansActivity;
-import com.example.eiga_.readingcalendar.activities.PresetListActivity;
 import com.example.eiga_.readingcalendar.data.PlanData;
 
 import java.util.List;
-
-import static com.example.eiga_.readingcalendar.activities.AddMultiplePlansActivity.PRESETLIST_REQ_CODE;
 
 public class PlansListAdapter extends BaseAdapter {
     private int mResource;
@@ -31,14 +27,7 @@ public class PlansListAdapter extends BaseAdapter {
     static class ViewHolder {
         Button readButton;
         TextView id;
-        EditText title;
-        TextView startTime;
-        TextView endTime;
-        TextView useTime;
-        TextView type;
-        TextView income;
-        TextView spending;
-        TextView memo;
+        TextView title;
 
     }
 
@@ -62,13 +51,6 @@ public class PlansListAdapter extends BaseAdapter {
             holder.readButton = convertView.findViewById(R.id.readPresetButton);
             holder.id = convertView.findViewById(R.id.planId);
             holder.title = convertView.findViewById(R.id.titleEdit);
-            holder.startTime = convertView.findViewById(R.id.startTimeText);
-            holder.endTime = convertView.findViewById(R.id.endTimeText);
-            holder.useTime = convertView.findViewById(R.id.useTimeText);
-            holder.type = convertView.findViewById(R.id.typeText);
-            holder.income = convertView.findViewById(R.id.incomePriceText);
-            holder.spending = convertView.findViewById(R.id.spendingPriceText);
-            holder. memo = convertView.findViewById(R.id.memoText);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -78,13 +60,14 @@ public class PlansListAdapter extends BaseAdapter {
         PlanData item = mItems.get(position);
         holder.id.setText(String.valueOf(position + 1));
         holder.title.setText(item.getTitle());
-        holder.startTime.setText(item.getStartTime());
-        holder.endTime.setText(item.getEndTime());
-        holder.useTime.setText(String.valueOf(item.getUseTime()));
-        holder.type.setText(item.getType());
-        holder.income.setText(String.valueOf(item.getIncome()));
-        holder.spending.setText(String.valueOf(item.getSpending()));
-        holder.memo.setText(item.getMemo());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ((ListView) parent).performItemClick(view, position,-1);
+            }
+        });
 
         // ボタンにクリックリスナーを設定。
         holder.readButton.setOnClickListener(new View.OnClickListener() {

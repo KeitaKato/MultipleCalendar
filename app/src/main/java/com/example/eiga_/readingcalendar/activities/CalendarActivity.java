@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.Px;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +35,7 @@ import java.util.Date;
 
 public class CalendarActivity extends AppCompatActivity{
 
+
     private TextView titleText;
     private Button prevButton, nextButton;
     private CalendarAdapter mCalendarAdapter;
@@ -44,16 +44,15 @@ public class CalendarActivity extends AppCompatActivity{
     // 保存された画像のURI
     private Uri _imageUri;
     private String imageUriString;
-    private static int OVERLAY_PERMISSION_REQ_CODE = 1000;
-    private static int CAMERA_REQ_CODE = 3000;
-    private static int WRITE_STORAGE_PERMISSION_REQ_CODE = 2000;
+    private static final int OVERLAY_PERMISSION_REQ_CODE = 1000;
+    private static final int WRITE_STORAGE_PERMISSION_REQ_CODE = 2000;
+    private static final int CAMERA_REQ_CODE = 3000;
     private FloatingActionButton actionButton;
     private FloatingActionButton cameraButton;
-    private FloatingActionButton presetButton;
-    private FloatingActionButton plansButton;
     private LinearLayout presetLayout;
     private LinearLayout cameraLayout;
     private LinearLayout plansLayout;
+    private LinearLayout deleteLayout;
     private View mFabBackground;
 
     enum ButtonState {
@@ -102,7 +101,7 @@ public class CalendarActivity extends AppCompatActivity{
         mFabBackground = findViewById(R.id.fabBackground);
 
         presetLayout = findViewById(R.id.AddPresetLayout);
-        presetButton = findViewById(R.id.AddPresetFab);
+        FloatingActionButton presetButton = findViewById(R.id.AddPresetFab);
         presetButton.setOnClickListener(PresetButtonListener);
 
         cameraLayout = findViewById(R.id.AddCameraLayout);
@@ -110,9 +109,28 @@ public class CalendarActivity extends AppCompatActivity{
         cameraButton.setOnClickListener(CameraButtonListener);
 
         plansLayout = findViewById(R.id.AddPlansLayout);
-        plansButton = findViewById(R.id.AddPlansFab);
+        FloatingActionButton plansButton = findViewById(R.id.AddPlansFab);
         plansButton.setOnClickListener(PlansButtonListener);
+
+        deleteLayout = findViewById(R.id.deletePlansLayout);
+        FloatingActionButton deleteButton = findViewById(R.id.deletePlansFab);
+        deleteButton.setOnClickListener(DeleteButtonListener);
+
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // 再表示時にAdapterを更新して,fabを閉じる。
+        mCalendarAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        fabClose();
+    }
+
 
     @TargetApi(Build.VERSION_CODES.M)
     private void checkOverlayPermission() {
@@ -192,11 +210,22 @@ public class CalendarActivity extends AppCompatActivity{
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(CalendarActivity.this, AddPresetActivity.class);
+            Intent intent = new Intent(CalendarActivity.this, AddPlanActivity.class);
+            intent.putExtra("ACTIVITY_MODE", "preset");
             startActivity(intent);
+            overridePendingTransition(0, 0);
 
         }
     };
+
+    View.OnClickListener DeleteButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(CalendarActivity.this, DeleteMultiplePlansActivity.class);
+            startActivity(intent);
+        }
+    };
+
 
     View.OnClickListener PlansButtonListener = new View.OnClickListener() {
         @Override
@@ -221,6 +250,7 @@ public class CalendarActivity extends AppCompatActivity{
                     Log.d("debug","SYSTEM_ALERT_WINDOW permission not granted...");
                 }
             }
+            return;
         } else if (requestCode == CAMERA_REQ_CODE && resultCode == RESULT_OK) {
             // service停止
             stopService(serviceIntent);
@@ -238,6 +268,7 @@ public class CalendarActivity extends AppCompatActivity{
             Intent tessTwoIntent = new Intent(CalendarActivity.this, TessTwoIntentService.class);
             tessTwoIntent.putExtra("IMAGE_URI", imageUriString);
             startService(tessTwoIntent);
+            return;
         }
     }
 
@@ -247,13 +278,18 @@ public class CalendarActivity extends AppCompatActivity{
         animator.setDuration(200);
         animator.start();
 
+        deleteLayout.setVisibility(View.VISIBLE);
+        animator = ObjectAnimator.ofFloat(deleteLayout, "translationY", -iconWhile * 2 + iconWhileMini);
+        animator.setDuration(200);
+        animator.start();
+
         cameraLayout.setVisibility(View.VISIBLE);
-        animator = ObjectAnimator.ofFloat(cameraLayout, "translationY", -iconWhile * 2 + iconWhileMini);
+        animator = ObjectAnimator.ofFloat(cameraLayout, "translationY", -iconWhile * 3 + iconWhileMini / 2);
         animator.setDuration(200);
         animator.start();
 
         presetLayout.setVisibility(View.VISIBLE);
-        animator = ObjectAnimator.ofFloat(presetLayout, "translationY", -iconWhile * 3 + iconWhileMini + iconWhileMini);
+        animator = ObjectAnimator.ofFloat(presetLayout, "translationY", -iconWhile * 4 + iconWhileMini + iconWhileMini / 2);
         animator.setDuration(200);
         animator.start();
 
@@ -275,6 +311,11 @@ public class CalendarActivity extends AppCompatActivity{
         animator.setDuration(200);
         animator.start();
         cameraLayout.setVisibility(View.GONE);
+
+        animator = ObjectAnimator.ofFloat(deleteLayout, "translationY", 0);
+        animator.setDuration(200);
+        animator.start();
+        deleteLayout.setVisibility(View.GONE);
 
         animator = ObjectAnimator.ofFloat(plansLayout, "translationY", 0);
         animator.setDuration(200);

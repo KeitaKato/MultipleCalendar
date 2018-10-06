@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddMultiplePlansActivity extends AppCompatActivity {
-
-    public static final int PRESETLIST_REQ_CODE = 4000;
+    private static final int PRESETLIST_REQ_CODE = 4000;
+    private static final int ADD_PLAN_REQ_CODE = 5000;
     private GridView multipleCalendarGridView;
     private MultiplePlansPickerAdapter mMultipleAdapter;
     private String month;
@@ -61,7 +61,6 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
 
         // リストビューを取得。
         ListView listView = findViewById(R.id.plansListView);
-
 
         // リストビューにクリックイベント設定。
         listView.setOnItemClickListener(new ListViewItemListener());
@@ -118,24 +117,38 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-         switch (view.getId()) {
-                case R.id.readPresetButton:
-                    // presetListActivityを呼び出す。
-                    Intent presetListIntent = new Intent(AddMultiplePlansActivity.this, PresetListActivity.class);
-                    presetListIntent.putExtra("ITEM_POSITION",position);
-                    startActivityForResult(presetListIntent, PRESETLIST_REQ_CODE);
-                    break;
-            }
+            Intent intent;
+         if (view.getId() == R.id.readPresetButton) {
+             // presetListActivityを呼び出す。
+             intent = new Intent(AddMultiplePlansActivity.this, PresetListActivity.class);
+             intent.putExtra("ITEM_POSITION",position);
+             startActivityForResult(intent, PRESETLIST_REQ_CODE);
+         } else {
+             intent = new Intent(AddMultiplePlansActivity.this, AddPlanActivity.class);
+             intent.putExtra("ITEM_POSITION",position);
+             intent.putExtra(PlanData.SERIAL_NAME, plansListItems.get(position));
+             intent.putExtra("ACTIVITY_MODE", "multiple");
+             startActivityForResult(intent, ADD_PLAN_REQ_CODE);
+             overridePendingTransition(0, 0);
+         }
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == PRESETLIST_REQ_CODE && resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             int position = intent.getIntExtra("ITEM_POSITION", -1);
-            PlanData planData = presetPlanDBModel.searchData("_id",intent.getStringExtra("PRESET_PLAN_ID"));
+            PlanData planData = new PlanData();
+            if (requestCode == PRESETLIST_REQ_CODE) {
+                planData = presetPlanDBModel.searchData("_id", intent.getStringExtra("PRESET_PLAN_ID"));
+
+            } else if (requestCode == ADD_PLAN_REQ_CODE) {
+                planData = (PlanData) intent.getSerializableExtra(PlanData.SERIAL_NAME);
+            }
             if (position == plansListItems.size() - 1) {
-                plansListItems.add(position,planData);
+                plansListItems.add(position, planData);
+            } else {
+                plansListItems.set(position, planData);
             }
             plansListAdapter.notifyDataSetChanged();
         }
@@ -167,6 +180,9 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
                 }
             }
 
+            // plansListItemsから最後の要素を削除
+            plansListItems.remove(plansListItems.size() - 1);
+
             // 選択中の各日付ごとにリスト内の各プランをデータベースに追加
             for (String planDay : checkedList) {
                 for (PlanData planItem : plansListItems) {
@@ -185,6 +201,10 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
                 }
             }
             finish();
+            // 起動中のactivityを全部消してCalendarActivityを起動
+//            Intent intent = new Intent(AddMultiplePlansActivity.this, CalendarActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
         }
     }
 }

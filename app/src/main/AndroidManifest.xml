@@ -27,9 +27,12 @@
             android:name=".services.TessTwoIntentService"
             android:exported="false" />
 
-        <activity android:name=".activities.AddPresetActivity" />
+        <activity
+            android:name=".activities.AddPlanActivity"
+            android:theme="@style/Theme.TranslucentBackground"></activity>
         <activity android:name=".activities.PresetListActivity" />
-        <activity android:name=".activities.AddMultiplePlansActivity"></activity>
+        <activity android:name=".activities.AddMultiplePlansActivity" />
+        <activity android:name=".activities.DeleteMultiplePlansActivity"></activity>
     </application>
 
 </manifest>

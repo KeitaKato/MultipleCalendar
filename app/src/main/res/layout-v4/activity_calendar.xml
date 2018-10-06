@@ -33,9 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Prev"
-            android:layout_alignParentLeft="true"
-            android:layout_marginVertical="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
             android:background="@color/colorAccent"/>
 
         <Button
@@ -43,9 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Next"
-            android:layout_alignParentRight="true"
-            android:layout_marginVertical="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@color/colorAccent"/>
     </RelativeLayout>
 
@@ -65,7 +67,8 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
             android:text="日"
@@ -166,22 +169,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/fab_margin_mini_end">
 
         <TextView
             android:id="@+id/AddPlansText"
             android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
             android:text="@string/add_multiple_plans_button"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddPlansFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/fab_margin_mini_end"
             android:layout_marginEnd="@dimen/fab_margin_mini_end"
-            android:src="@android:drawable/ic_menu_edit"
+            android:src="@android:drawable/ic_menu_add"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/deletePlansLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/fab_margin_mini_end">
+
+        <TextView
+            android:id="@+id/deletePlansText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
+            android:text="@string/delete_multiple_plans_button"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/deletePlansFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin_mini_end"
+            android:src="@android:drawable/ic_menu_delete"
             app:backgroundTint="@color/colorPrimary"
             app:fabSize="mini"/>
 
@@ -194,20 +227,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/fab_margin_mini_bottom">
 
         <TextView
             android:id="@+id/AddCameraText"
             android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
             android:text="@string/add_camera_button"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddCameraFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/fab_margin_mini_bottom"
             android:layout_marginEnd="@dimen/fab_margin_mini_end"
             android:src="@android:drawable/ic_menu_today"
             app:backgroundTint="@color/colorPrimary"
@@ -222,20 +256,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/fab_margin_mini_bottom">
 
         <TextView
             android:id="@+id/AddPresetText"
             android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
             android:text="@string/add_preset_button"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/AddPresetFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/fab_margin_mini_bottom"
             android:layout_marginEnd="@dimen/fab_margin_mini_end"
             android:src="@android:drawable/ic_menu_today"
             app:backgroundTint="@color/colorPrimary"

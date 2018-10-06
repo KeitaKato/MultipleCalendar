@@ -1,6 +1,9 @@
 package com.example.eiga_.readingcalendar.data;
 
-public class PlanData {
+import java.io.Serializable;
+
+public class PlanData implements Serializable{
+    public static final String SERIAL_NAME = "PlanData";
     private int id;
     private String title;
     private String startTime;
