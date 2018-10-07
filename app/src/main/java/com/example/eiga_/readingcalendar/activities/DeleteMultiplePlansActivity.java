@@ -35,13 +35,16 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
     private String month;
     private List<Date> days = new ArrayList<>();
     private PlansPickerData mPickerData = new PlansPickerData("日付を選択して絞り込む");
-    private ArrayList<PlanData> plansListItems;
+    private List<PlanData> plansListItems;
     private PresetPlanDBModel presetPlanDBModel;
     private PlansListAdapter plansListAdapter;
+    private CalendarDBModel calendarDBModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_multiple_plans);
+        // calendarDBModelを使用
+        calendarDBModel = new CalendarDBModel(DeleteMultiplePlansActivity.this);
 
         ActivityDeleteMultiplePlansBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_delete_multiple_plans);
         binding.setPlansPicker(mPickerData);
@@ -64,9 +67,7 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new DeleteMultiplePlansActivity.ListViewItemListener());
 
         // リストにアダプターを設定
-        plansListItems = new ArrayList<>();
-        PlanData planData = new PlanData();
-        plansListItems.add(planData);
+        plansListItems = calendarDBModel.searchGroupData("plan_title");
         plansListAdapter = new PlansListAdapter(DeleteMultiplePlansActivity.this, R.layout.deletelist_item, plansListItems);
         listView.setAdapter(plansListAdapter);
 
@@ -117,8 +118,6 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
             Intent intent;
             if (view.getId() == R.id.readPresetButton) {
 
-            } else {
-
             }
         }
     }
@@ -134,8 +133,6 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
     class deleteButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            //CalendarDB
-            CalendarDBModel calendarDBModel = new CalendarDBModel(DeleteMultiplePlansActivity.this);
             // 選択中の日付を取得。
             SparseBooleanArray checked = multipleCalendarGridView.getCheckedItemPositions();
             List<String> checkedList = new ArrayList<>();
@@ -147,6 +144,10 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
                     String str = dateFormat.format(days.get(i));
                     checkedList.add(str);
                 }
+            }
+
+            if (checkedList.size() == 0) {
+                calendarDBModel.deleteData();
             }
             finish();
         }

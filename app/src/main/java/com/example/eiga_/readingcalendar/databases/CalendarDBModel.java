@@ -35,6 +35,14 @@ public class CalendarDBModel extends DBModelBase{
         }
     }
 
+    public List<PlanData> searchGroupData(String column, String ... commands) {
+        String sql;
+        if (commands.length == 0){
+            sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " GROUP BY " + column + ";";
+        }
+        sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE " +
+    }
+
     public Cursor getSearchDataCursor(String column, String keyword) {
         // SQL
         String sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE " + column + " = " + "date('" + keyword + "');";
