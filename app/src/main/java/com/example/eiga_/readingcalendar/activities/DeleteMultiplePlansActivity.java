@@ -110,7 +110,7 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
                 plansListItems = calendarDBModel.searchGroupData("plan_title","plan_day",daysList);
                 plansListAdapter.setItem(plansListItems);
             } else {
-                mPickerData.setDays("日付を選択");
+                mPickerData.setDays("対象日付を絞り込む");
                 plansListItems = calendarDBModel.searchGroupData("plan_title",null, null);
                 plansListAdapter.setItem(plansListItems);
             }
