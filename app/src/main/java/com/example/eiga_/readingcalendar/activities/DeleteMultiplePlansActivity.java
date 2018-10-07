@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +41,8 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
     private PresetPlanDBModel presetPlanDBModel;
     private PlansListAdapter plansListAdapter;
     private CalendarDBModel calendarDBModel;
+    private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,19 +61,24 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
         month = mMultipleAdapter.getTitle();
         days = mMultipleAdapter.getDays();
 
+        // GridViewに選択モードを設定
         multipleCalendarGridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
         multipleCalendarGridView.setOnItemClickListener(new DeleteMultiplePlansActivity.GridViewItemListener());
 
         // リストビューを取得。
-        ListView listView = findViewById(R.id.plansListView);
+        listView = findViewById(R.id.plansListView);
 
         // リストビューにクリックイベント設定。
         listView.setOnItemClickListener(new DeleteMultiplePlansActivity.ListViewItemListener());
+        // listViewに選択モードを設定。
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         // リストにアダプターを設定
         plansListItems = calendarDBModel.searchGroupData("plan_title",null, null);
         plansListAdapter = new PlansListAdapter(DeleteMultiplePlansActivity.this, R.layout.deletelist_item, plansListItems);
         listView.setAdapter(plansListAdapter);
+        View footer = (View)getLayoutInflater().inflate(R.layout.deletelist_footer,null);
+        listView.addFooterView(footer);
 
         TextView cancelButton = findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(new DeleteMultiplePlansActivity.cancelButtonListener());
@@ -87,6 +96,8 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
 
 //            gridItemView.setBackgroundColor(Color.BLUE);
 
+            // listViewの選択状態を初期化
+            listView.clearChoices();
 //          選択中の日付を取得。
             SparseBooleanArray checked = multipleCalendarGridView.getCheckedItemPositions();
             StringBuilder daysText = new StringBuilder();

@@ -143,7 +143,6 @@
                 android:numColumns="7"
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="1dp"
-
                 android:listSelector="@android:drawable/list_selector_background">
             </GridView>
 
@@ -168,7 +167,8 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/multiplePickerTextView">
+            app:layout_constraintTop_toBottomOf="@+id/multiplePickerTextView"
+            android:listSelector="@android:drawable/list_selector_background">
 
         </ListView>
 
