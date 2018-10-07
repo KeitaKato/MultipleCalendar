@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CalendarDBModel extends DBModelBase{
 
-    final String CALENDER_TABLE_NAME = "calenders";
+    private final String CALENDER_TABLE_NAME = "calenders";
     private final Context context;
 
     public CalendarDBModel(Context context) {
@@ -23,7 +23,7 @@ public class CalendarDBModel extends DBModelBase{
         PlanData planData;
         try {
             //SQL文
-            String sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE " + column + "=" + keyword; // sessionArgsがなぜか使えない
+            String sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE " + column + "=" + keyword; // selectionArgsがなぜか使えない
             //SQL文実行
             cursor = db.rawQuery(sql, null);
             planData = readCursor(cursor);
@@ -35,12 +35,33 @@ public class CalendarDBModel extends DBModelBase{
         }
     }
 
-    public List<PlanData> searchGroupData(String column, String ... commands) {
-        String sql;
-        if (commands.length == 0){
-            sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " GROUP BY " + column + ";";
+    public List<PlanData> searchGroupData(String groupColumn, String whereColumn, List<String> keywords) {
+        Cursor cursor = null;
+        List<PlanData> planDataList;
+        // StringBuilderでsql文を作る
+        StringBuilder sql = new StringBuilder("SELECT * FROM " + CALENDER_TABLE_NAME);
+        if (whereColumn == null && keywords == null){
+            sql.append(" GROUP BY ").append(groupColumn).append(" ;");
+        } else if ( keywords != null && whereColumn != null){
+
+            sql.append(" WHERE ").append(whereColumn).append( " IN (");
+
+            for (String keyword : keywords) {
+                sql.append("'").append(keyword).append("',");
+            }
+            sql.deleteCharAt(sql.lastIndexOf(","));
+            sql.append(") GROUP BY ").append(groupColumn).append(" ;");
+
         }
-        sql = "SELECT * FROM " + CALENDER_TABLE_NAME + " WHERE " +
+        try {
+            cursor = db.rawQuery(sql.toString(), null);
+            planDataList = readCursorAll(cursor);
+            return  planDataList;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public Cursor getSearchDataCursor(String column, String keyword) {
@@ -72,8 +93,27 @@ public class CalendarDBModel extends DBModelBase{
     }
 
     @Override
-    List<PlanData> readCursorAll(Cursor cursor) {
-        return null;
+    List<PlanData> readCursorAll (Cursor cursor) {
+        // 返すlistを生成。
+        List<PlanData> planDataList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            // PlanDataオブジェクトを生成。
+            PlanData planData = new PlanData();
+            // 各データを格納
+            planData.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
+            planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
+            planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
+            planData.setUseTime(String.valueOf(cursor.getInt(cursor.getColumnIndex("use_time"))));
+            planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
+            planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
+            planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
+            planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
+            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
+            // Listに追加
+            planDataList.add(planData);
+        }
+        return planDataList;
     }
 
     public  void insertData(String day, String planTitle){

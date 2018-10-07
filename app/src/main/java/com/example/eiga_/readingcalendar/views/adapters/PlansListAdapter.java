@@ -96,6 +96,9 @@ public class PlansListAdapter extends BaseAdapter {
         return position;
     }
 
+    public void setItem(List<PlanData> items) {
+        mItems = items;
+    }
 
 
 }

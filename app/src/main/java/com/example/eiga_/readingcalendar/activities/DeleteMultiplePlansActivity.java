@@ -67,7 +67,7 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new DeleteMultiplePlansActivity.ListViewItemListener());
 
         // リストにアダプターを設定
-        plansListItems = calendarDBModel.searchGroupData("plan_title");
+        plansListItems = calendarDBModel.searchGroupData("plan_title",null, null);
         plansListAdapter = new PlansListAdapter(DeleteMultiplePlansActivity.this, R.layout.deletelist_item, plansListItems);
         listView.setAdapter(plansListAdapter);
 
@@ -90,22 +90,31 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
 //          選択中の日付を取得。
             SparseBooleanArray checked = multipleCalendarGridView.getCheckedItemPositions();
             StringBuilder daysText = new StringBuilder();
+            List<String> daysList = new ArrayList<>();
 
+            SimpleDateFormat daysFormat = new SimpleDateFormat("d日", Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             for(int i = 0; i <= days.size(); i++) {
-
                 // 選択中の日付ならば、文字列に追加
                 if(checked.get(i)){
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("d日", Locale.US);
-                    String str = dateFormat.format(days.get(i));
+                    String str = daysFormat.format(days.get(i));
                     daysText.append(str).append(",");
+                    str = dateFormat.format(days.get(i));
+                    daysList.add(str);
                 }
             }
 
             if(daysText.length() > 0) {
-                mPickerData.setDays(daysText.substring(0, daysText.length() - 1));
+                daysText.deleteCharAt(daysText.lastIndexOf(","));
+                mPickerData.setDays(daysText.toString());
+                plansListItems = calendarDBModel.searchGroupData("plan_title","plan_day",daysList);
+                plansListAdapter.setItem(plansListItems);
             } else {
                 mPickerData.setDays("日付を選択");
+                plansListItems = calendarDBModel.searchGroupData("plan_title",null, null);
+                plansListAdapter.setItem(plansListItems);
             }
+            plansListAdapter.notifyDataSetChanged();
 
         }
     }
@@ -147,7 +156,6 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
             }
 
             if (checkedList.size() == 0) {
-                calendarDBModel.deleteData();
             }
             finish();
         }
