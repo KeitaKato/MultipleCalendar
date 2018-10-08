@@ -47,7 +47,7 @@ public class CalendarDBModel extends DBModelBase{
             sql.append(" WHERE ").append(whereColumn).append( " IN (");
 
             for (String keyword : keywords) {
-                sql.append("'").append(keyword).append("',");
+                sql.append(keyword).append(",");
             }
             sql.deleteCharAt(sql.lastIndexOf(","));
             sql.append(") GROUP BY ").append(groupColumn).append(" ;");
@@ -170,37 +170,47 @@ public class CalendarDBModel extends DBModelBase{
 
     public void deleteData(String column, List<String> keywords) {
         StringBuilder sql = new StringBuilder("DELETE FROM " + CALENDER_TABLE_NAME
-                + " WHERE ? IN('");
-        String[] bindStr = new String[]{
-                column
-        };
+                + " WHERE "+ column +" IN ("); // カラムにはselectionArgsは使えない？
         for (String keyword : keywords) {
-            sql.append(keyword).append("',");
+            sql.append(keyword).append(",");
         }
         sql.deleteCharAt(sql.lastIndexOf(","));
-        sql.append(") ;");
+        sql.append(");");
 
-        super.executeSql(sql.toString(), bindStr);
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(sql.toString(), null);
+            cursor.moveToFirst();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public void deleteAndData(String column1, String column2, List<String> keywords1, List<String> keywords2) {
         StringBuilder sql = new StringBuilder("DELETE FROM " + CALENDER_TABLE_NAME
-                + " WHERE ? IN('");
-        String[] bindStr = new String[]{
-                column1,
-                column2
-        };
+                + " WHERE " + column1 +" IN (");
         for (String keyword : keywords1) {
-            sql.append(keyword).append("',");
+            sql.append(keyword).append(",");
         }
         sql.deleteCharAt(sql.lastIndexOf(","));
-        sql.append(") AND WHERE ? IN('");
+        sql.append(") AND ").append(column2).append(" IN (");
         for (String keyword : keywords2) {
-            sql.append(keyword).append("',");
+            sql.append(keyword).append(",");
         }
         sql.deleteCharAt(sql.lastIndexOf(","));
-        sql.append(") ;");
+        sql.append(");");
 
-        super.executeSql(sql.toString(), bindStr);
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(sql.toString(), null);
+            cursor.moveToFirst();
+            System.out.println(cursor.getCount());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 }

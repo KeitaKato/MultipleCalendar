@@ -104,7 +104,7 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
             List<String> daysList = new ArrayList<>();
 
             SimpleDateFormat daysFormat = new SimpleDateFormat("d日", Locale.US);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("''yyyy-MM-dd''", Locale.US);
             for(int i = 0; i <= days.size(); i++) {
                 // 選択中の日付ならば、文字列に追加
                 if(checked.get(i)){
@@ -156,7 +156,8 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
             // 選択中の日付を取得。
             SparseBooleanArray checked = multipleCalendarGridView.getCheckedItemPositions();
             List<String> daysList = new ArrayList<>();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            // 日付データをシングルクォーテーションで囲む
+            SimpleDateFormat dateFormat = new SimpleDateFormat("''yyyy-MM-dd''", Locale.US);
             for(int i = 0; i <= days.size(); i++) {
 
                 // 選択中の日付ならば、文字列に追加
@@ -171,13 +172,20 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
             for(int i = 0; i <= plansListItems.size(); i++) {
                 // リストが選択中なら
                 if(checked.get(i)) {
-                    deleteList.add(String.valueOf(plansListItems.get(i).getId()));
+                    String str = "'" + plansListItems.get(i).getTitle() + "'";
+                    deleteList.add(str);
                 }
             }
-            if (deleteList.size() != 0 && daysList.size() == 0) {
-                calendarDBModel.deleteData("_id", deleteList);
-            } else if (deleteList.size() != 0 && daysList.size() != 0) {
-                calendarDBModel.deleteAndData("_id","plan_day",deleteList,daysList);
+            if (deleteList.size() != 0) {
+                // ダイアログ
+                if (daysList.size() == 0) {
+                    calendarDBModel.deleteData("plan_title", deleteList);
+                } else {
+                    calendarDBModel.deleteAndData("plan_title","plan_day",deleteList,daysList);
+                }
+            } else {
+                // ダイアログ
+                return;
             }
             finish();
         }

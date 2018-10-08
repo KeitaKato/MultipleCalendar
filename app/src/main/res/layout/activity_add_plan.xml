@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel_Text"
-            android:clickable="true"
             android:layout_gravity="start"
+            android:clickable="true"
             android:focusable="true" />
 
         <TextView
@@ -67,6 +67,8 @@
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/planTitle">
@@ -74,13 +76,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/start_time_text" />
+            android:text="@string/start_time_text"
+            android:textColor="@color/blackColor" />
 
         <TextView
             android:id="@+id/startTimeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
+            android:text="@string/start_set_time_text"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
@@ -90,6 +94,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startTimeLayout">
@@ -97,6 +103,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/blackColor"
             android:text="@string/end_time_text" />
 
         <TextView
@@ -113,6 +120,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/endTimeLayout">
@@ -120,13 +129,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/use_time_text" />
+            android:text="@string/use_time_text"
+            android:textColor="@color/blackColor" />
 
         <TextView
             android:id="@+id/useTimeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
+            android:text="@string/use_set_time_text"
             android:layout_marginStart="8dp"
             />
 
@@ -138,6 +149,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/useTimeLayout">
@@ -145,14 +158,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/type_text" />
+            android:text="@string/type_text"
+            android:textColor="@color/blackColor" />
 
         <TextView
             android:id="@+id/typeText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text=""
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
@@ -162,6 +175,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeLayout">
@@ -169,7 +184,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/income_price_text" />
+            android:text="@string/income_price_text"
+            android:textColor="@color/blackColor" />
 
         <TextView
             android:id="@+id/incomePriceText"
@@ -186,6 +202,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/incomePriceLayout">
@@ -193,7 +211,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/spending_price_text" />
+            android:text="@string/spending_price_text"
+            android:textColor="@color/blackColor" />
 
         <TextView
             android:id="@+id/spendingPriceText"

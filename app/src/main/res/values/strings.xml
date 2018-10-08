@@ -24,5 +24,7 @@
     <string name="delete_multiple_plans_button">まとめて削除</string>
     <string name="delete_text">削除</string>
     <string name="update_button_text">編集する</string>
+    <string name="start_set_time_text">開始時間を設定</string>
+    <string name="use_set_time_text">所要時間を設定</string>
 
 </resources>

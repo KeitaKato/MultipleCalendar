@@ -28,12 +28,15 @@ public abstract class DBModelBase {
     }
     abstract List<PlanData> readCursorAll (Cursor cursor);
 
-    protected void executeSql(String sql, String[] bindStr) {
-
+    void executeSql(String sql, String[] bindStr) {
+        db.beginTransaction();
         try{
             db.execSQL(sql, bindStr);
+            db.setTransactionSuccessful();
         } catch (SQLException e) {
             Log.e("ERROR", e.toString());
+        }finally {
+            db.endTransaction();
         }
     }
 }
