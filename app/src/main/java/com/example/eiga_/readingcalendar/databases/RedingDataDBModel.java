@@ -73,7 +73,6 @@ public class RedingDataDBModel extends DBModelBase {
         super.executeSql(sql,bindStr);
     }
 
-    @Override
     void deleteData(String column, String keyword) {
         String sql = "DELETE FROM " + READING_DATA_TABLE_NAME
                 + " WHERE ? = ?;";

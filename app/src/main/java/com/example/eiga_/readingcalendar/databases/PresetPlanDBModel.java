@@ -139,7 +139,6 @@ public class PresetPlanDBModel extends DBModelBase {
         super.executeSql(sql,bindStr);
     }
 
-    @Override
     void deleteData(String column, String keyword) {
         String sql = "DELETE FROM " + PRESET_PLAN_TABLE_NAME
                 + " WHERE ? = ?;";

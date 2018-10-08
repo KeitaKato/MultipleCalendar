@@ -87,7 +87,7 @@ public class CalendarDBModel extends DBModelBase{
             planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
             planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
             planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
-            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
+            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("preset_id"))));
         }
         return planData;
     }
@@ -109,7 +109,7 @@ public class CalendarDBModel extends DBModelBase{
             planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
             planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
             planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
-            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
+            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("preset_id"))));
             // Listに追加
             planDataList.add(planData);
         }
@@ -168,15 +168,39 @@ public class CalendarDBModel extends DBModelBase{
         super.executeSql(sql, bindStr);
     }
 
-    @Override
-    public void deleteData(String column, String keyword) {
-        String sql = "DELETE FROM " + CALENDER_TABLE_NAME
-                + " WHERE ? = ?;";
+    public void deleteData(String column, List<String> keywords) {
+        StringBuilder sql = new StringBuilder("DELETE FROM " + CALENDER_TABLE_NAME
+                + " WHERE ? IN('");
         String[] bindStr = new String[]{
-                column,
-                keyword
+                column
         };
+        for (String keyword : keywords) {
+            sql.append(keyword).append("',");
+        }
+        sql.deleteCharAt(sql.lastIndexOf(","));
+        sql.append(") ;");
 
-        super.executeSql(sql, bindStr);
+        super.executeSql(sql.toString(), bindStr);
+    }
+
+    public void deleteAndData(String column1, String column2, List<String> keywords1, List<String> keywords2) {
+        StringBuilder sql = new StringBuilder("DELETE FROM " + CALENDER_TABLE_NAME
+                + " WHERE ? IN('");
+        String[] bindStr = new String[]{
+                column1,
+                column2
+        };
+        for (String keyword : keywords1) {
+            sql.append(keyword).append("',");
+        }
+        sql.deleteCharAt(sql.lastIndexOf(","));
+        sql.append(") AND WHERE ? IN('");
+        for (String keyword : keywords2) {
+            sql.append(keyword).append("',");
+        }
+        sql.deleteCharAt(sql.lastIndexOf(","));
+        sql.append(") ;");
+
+        super.executeSql(sql.toString(), bindStr);
     }
 }

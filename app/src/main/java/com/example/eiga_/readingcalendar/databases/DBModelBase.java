@@ -36,7 +36,5 @@ public abstract class DBModelBase {
             Log.e("ERROR", e.toString());
         }
     }
-
-    abstract void deleteData(String column, String keyword);
 }
 

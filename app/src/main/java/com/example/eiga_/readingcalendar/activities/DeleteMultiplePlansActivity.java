@@ -155,18 +155,29 @@ public class DeleteMultiplePlansActivity extends AppCompatActivity {
         public void onClick(View v) {
             // 選択中の日付を取得。
             SparseBooleanArray checked = multipleCalendarGridView.getCheckedItemPositions();
-            List<String> checkedList = new ArrayList<>();
+            List<String> daysList = new ArrayList<>();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             for(int i = 0; i <= days.size(); i++) {
 
                 // 選択中の日付ならば、文字列に追加
                 if(checked.get(i)){
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
                     String str = dateFormat.format(days.get(i));
-                    checkedList.add(str);
+                    daysList.add(str);
                 }
             }
 
-            if (checkedList.size() == 0) {
+            checked = listView.getCheckedItemPositions();
+            List<String> deleteList = new ArrayList<>();
+            for(int i = 0; i <= plansListItems.size(); i++) {
+                // リストが選択中なら
+                if(checked.get(i)) {
+                    deleteList.add(String.valueOf(plansListItems.get(i).getId()));
+                }
+            }
+            if (deleteList.size() != 0 && daysList.size() == 0) {
+                calendarDBModel.deleteData("_id", deleteList);
+            } else if (deleteList.size() != 0 && daysList.size() != 0) {
+                calendarDBModel.deleteAndData("_id","plan_day",deleteList,daysList);
             }
             finish();
         }
