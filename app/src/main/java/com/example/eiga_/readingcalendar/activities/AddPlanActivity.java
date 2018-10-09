@@ -2,8 +2,8 @@ package com.example.eiga_.readingcalendar.activities;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +14,9 @@ import android.widget.TimePicker;
 import com.example.eiga_.readingcalendar.R;
 import com.example.eiga_.readingcalendar.data.PlanData;
 import com.example.eiga_.readingcalendar.databases.PresetPlanDBModel;
+import com.example.eiga_.readingcalendar.fragments.TimePick;
+
+import java.util.Locale;
 
 public class AddPlanActivity extends FragmentActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -32,6 +35,8 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
     private TextView incomePriceText;
     private TextView spendingPriceText;
     private EditText memoText;
+
+    private String selectTimeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +94,23 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
     }
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+        String str = String.format(Locale.US, "%d時%d分", hourOfDay, minute);
+        switch (selectTimeText){
+            case "start":
+                startTimeText.setText(str);
+                break;
+            case "end":
+                endTimeText.setText(str);
+                break;
+        }
+
+    }
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePick();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
 
     }
 
@@ -148,14 +169,16 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
     private class StartTimeListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-
+            selectTimeText = "start";
+            showTimePickerDialog(view);
         }
     }
 
     private class EndTimeListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-
+            selectTimeText = "end";
+            showTimePickerDialog(view);
         }
     }
 
