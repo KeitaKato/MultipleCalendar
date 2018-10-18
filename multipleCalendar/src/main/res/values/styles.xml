@@ -1,0 +1,24 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- 半透明 -->
+    <drawable name="transParameter">#7f000000</drawable>
+    <style name="Theme.TranslucentBackground" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/transParameter</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="MyApp.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/whiteColor"
+    tools:context=".activities.CalendarActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:background="@color/whiteColor"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018.2"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            android:id="@+id/prevButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Prev"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/colorAccent"/>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Next"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorAccent"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/whiteColor"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="日"
+            android:textAlignment="center"
+            android:textColor="@color/redColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="月"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="火"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="水"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="木"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="金"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteColor"
+            android:text="土"
+            android:textAlignment="center"
+            android:textColor="@color/blueColor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@color/grayColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <GridView
+            android:id="@+id/calendarGridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0.8dp"
+            android:layout_weight="15"
+            android:horizontalSpacing="1dp"
+            android:numColumns="7"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp"/>
+    </LinearLayout>
+
+    <!-- フローティングアクションボタンを押したときに表示 -->
+    <View
+        android:id="@+id/fabBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/translucentColor"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/AddPlansLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/fab_margin_mini_end">
+
+        <TextView
+            android:id="@+id/AddPlansText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
+            android:text="@string/add_multiple_plans_button"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddPlansFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin_mini_end"
+            android:src="@android:drawable/ic_menu_add"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/deletePlansLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/fab_margin_mini_end">
+
+        <TextView
+            android:id="@+id/deletePlansText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
+            android:text="@string/delete_multiple_plans_button"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/deletePlansFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin_mini_end"
+            android:src="@android:drawable/ic_menu_delete"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/AddCameraLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/fab_margin_mini_bottom">
+
+        <TextView
+            android:id="@+id/AddCameraText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
+            android:text="@string/add_camera_button"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddCameraFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin_mini_end"
+            android:src="@android:drawable/ic_menu_today"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/AddPresetLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/fab_margin_mini_bottom">
+
+        <TextView
+            android:id="@+id/AddPresetText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
+            android:text="@string/add_preset_button"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddPresetFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin_mini_end"
+            android:src="@android:drawable/ic_menu_today"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="mini"/>
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
+        android:onClick="onActionButtonClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="OnClick"/>
+
+
+</android.support.constraint.ConstraintLayout>
