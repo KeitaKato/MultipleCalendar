@@ -106,7 +106,7 @@ public class PresetPlanDBModel extends DBModelBase {
 
     public void insertData(String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending, String memoText) {
         String sql = "INSERT INTO " + PRESET_PLAN_TABLE_NAME
-                + "(plan_title, plan_type, start_time,end_time,use_time,income,spending,memo) values(?,?,?,?,?,?,?,?);";
+                + "(plan_title, plan_type, start_time,end_time,use_time,income,spending,memo, created_at, updated_at) values(?,?,?,?,?,?,?,?, datetime('now', 'utc'),datetime('now', 'utc'));";
         String[] bindStr = new String[] {
                 planTitle,
                 planType,

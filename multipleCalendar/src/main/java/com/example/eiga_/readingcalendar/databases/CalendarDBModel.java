@@ -122,7 +122,7 @@ public class CalendarDBModel extends DBModelBase{
 
         String sql;
         List<String> bindStr = new ArrayList<>();
-            sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title) values(?,?);";
+            sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title, created_at, updated_at) values(?,?, datetime('now', 'utc'),datetime('now', 'utc'));";
             bindStr.add(day);
             bindStr.add(planTitle);
 
@@ -132,7 +132,9 @@ public class CalendarDBModel extends DBModelBase{
 
     public void insertData(String planDay, String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending,String memo, String presetId, String readingId){
         String sql = "INSERT INTO " + CALENDER_TABLE_NAME
-                + " (plan_day, plan_title, plan_type, start_time, end_time, use_time, income, spending, memo, preset_id, reading_id) values(date('" + planDay + "'),?,?,?,?,?,?,?,?,?,?);";
+                + " (plan_day, plan_title, plan_type, start_time, end_time, use_time, income, spending, memo, preset_id, reading_id, created_at, updated_at)"
+                +" values(date('" + planDay + "'),?,?,?,?,?,?,?,?,?,?, datetime('now', 'utc'),datetime('now', 'utc')) "
+                +";";
         String[] bindStr = new String[]{
                 planTitle,
                 planType,
