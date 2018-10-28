@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:name=".utils.MyApplication"
@@ -29,10 +32,14 @@
 
         <activity
             android:name=".activities.AddPlanActivity"
-            android:theme="@style/Theme.TranslucentBackground"></activity>
+            android:theme="@style/Theme.TranslucentBackground" />
         <activity android:name=".activities.PresetListActivity" />
         <activity android:name=".activities.AddMultiplePlansActivity" />
-        <activity android:name=".activities.DeleteMultiplePlansActivity"></activity>
+        <activity android:name=".activities.DeleteMultiplePlansActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
