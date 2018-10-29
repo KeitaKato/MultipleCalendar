@@ -51,6 +51,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             + "spending_flag INTEGER NOT NULL DEFAULT 0 CHECK(spending_flag IN (0, 1)),"
             + "place_flag INTEGER NOT NULL DEFAULT 0 CHECK(place_flag IN (0, 1)),"
             + "tool_flag INTEGER NOT NULL DEFAULT 0 CHECK(tool_flag IN (0, 1)),"
+            + "check_flag INTEGER NOT NULL DEFAULT 0 CHECK(check_flag IN (0, 1)),"
             + "created_at NOT NULL,"
             + "updated_at NOT NULL DEFAULT CURRENT_TIMESTAMP"
             + ");";
@@ -77,10 +78,10 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(READING_DATA_CREATE_SQL);
 
         // plan_typesに初期カテゴリをインサート
-        String sql = "INSERT INTO plan_types (type_name, income_flag, spending_flag, place_flag, tool_flag, created_at, updated_at)"
-                + "VALUES (),"
-                + "VALUES (),"
-                + "VALUES (),";
+        String sql = "INSERT INTO plan_types (type_name, income_flag, spending_flag, place_flag, tool_flag, check_flag, created_at, updated_at)"
+                + " VALUES ('仕事', 1, 0, 1, 0, 0, datetime('now', 'utc'), datetime('now', 'utc')),"
+                + " ('学習', 0, 0, 0, 1, 1, datetime('now', 'utc'), datetime('now', 'utc')),"
+                + " ('買い物', 0, 1, 1, 0, 0, datetime('now', 'utc'), datetime('now', 'utc'));";
 
         db.beginTransaction();
         try{
