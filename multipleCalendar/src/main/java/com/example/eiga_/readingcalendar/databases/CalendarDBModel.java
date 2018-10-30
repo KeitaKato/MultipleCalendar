@@ -77,7 +77,7 @@ public class CalendarDBModel extends DBModelBase{
         //カーソル開始位置を先頭にする
         PlanData planData = new PlanData();
         // 各データを格納
-        while (cursor.moveToNext()) {
+        if (cursor.moveToNext()) {
             planData.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
             planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
@@ -92,7 +92,6 @@ public class CalendarDBModel extends DBModelBase{
         return planData;
     }
 
-    @Override
     List<PlanData> readCursorAll (Cursor cursor) {
         // 返すlistを生成。
         List<PlanData> planDataList = new ArrayList<>();

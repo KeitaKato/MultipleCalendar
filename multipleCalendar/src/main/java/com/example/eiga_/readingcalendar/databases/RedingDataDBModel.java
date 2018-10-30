@@ -43,7 +43,6 @@ public class RedingDataDBModel extends DBModelBase {
         return sb.toString();
     }
 
-    @Override
     List<PlanData> readCursorAll(Cursor cursor) {
         return null;
     }

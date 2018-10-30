@@ -78,7 +78,6 @@ public class PresetPlanDBModel extends DBModelBase {
         return planData;
     }
 
-    @Override
     List<PlanData> readCursorAll (Cursor cursor) {
         // カーソル位置を先頭に
         cursor.moveToFirst();

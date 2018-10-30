@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.example.eiga_.readingcalendar.data.PlanData;
+import com.example.eiga_.readingcalendar.data.PlanTypeData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class PlanTypesDBModel extends DBModelBase{
         this.context = context;
     }
 
-    public PlanData searchData(String column, String keyword) {
+    public PlanTypeData searchData(String column, String keyword) {
         Cursor cursor = null;
         try {
             //SQL文
@@ -33,28 +34,14 @@ public class PlanTypesDBModel extends DBModelBase{
         }
     }
 
-    public List<PlanData> searchGroupData(String groupColumn, String whereColumn, List<String> keywords) {
+    public List<PlanTypeData> searchDataAll(String column, String keyword) {
         Cursor cursor = null;
-        List<PlanData> planDataList;
-        // StringBuilderでsql文を作る
-        StringBuilder sql = new StringBuilder("SELECT * FROM " + PLAN_TYPES_TABLE_NAME);
-        if (whereColumn == null && keywords == null){
-            sql.append(" GROUP BY ").append(groupColumn).append(" ;");
-        } else if ( keywords != null && whereColumn != null){
-
-            sql.append(" WHERE ").append(whereColumn).append( " IN (");
-
-            for (String keyword : keywords) {
-                sql.append(keyword).append(",");
-            }
-            sql.deleteCharAt(sql.lastIndexOf(","));
-            sql.append(") GROUP BY ").append(groupColumn).append(" ;");
-
-        }
         try {
-            cursor = db.rawQuery(sql.toString(), null);
-            planDataList = readCursorAll(cursor);
-            return  planDataList;
+            //SQL文
+            String sql = "SELECT * FROM " + PLAN_TYPES_TABLE_NAME + " WHERE " + column + "=" + keyword; // selectionArgsがなぜか使えない
+            //SQL文実行
+            cursor = db.rawQuery(sql, null);
+            return readCursorAll(cursor);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -71,82 +58,63 @@ public class PlanTypesDBModel extends DBModelBase{
         return cursor;
     }
 
-    private PlanData readCursor(Cursor cursor) {
+    private PlanTypeData readCursor(Cursor cursor) {
         //カーソル開始位置を先頭にする
-        PlanData planData = new PlanData();
+        PlanTypeData planType = new PlanTypeData();
         // 各データを格納
         while (cursor.moveToNext()) {
-            planData.setId(cursor.getInt(cursor.getColumnIndex("_id")));
-            planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
-            planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
-            planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
-            planData.setUseTime(String.valueOf(cursor.getInt(cursor.getColumnIndex("use_time"))));
-            planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
-            planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
-            planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
-            planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
-            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("preset_id"))));
+            planType.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            planType.setTypeName(cursor.getString(cursor.getColumnIndex("type_name")));
+            planType.setIncomeFlag(cursor.getInt(cursor.getColumnIndex("income_flag")) != 0);
+            planType.setSpendingFlag(cursor.getInt(cursor.getColumnIndex("spending_flag")) != 0);
+            planType.setPlaceFlag(cursor.getInt(cursor.getColumnIndex("place_flag")) != 0);
+            planType.setToolFlag(cursor.getInt(cursor.getColumnIndex("tool_flag")) != 0);
+            planType.setCheckFlag(cursor.getInt(cursor.getColumnIndex("check_flag")) != 0);
         }
-        return planData;
+        return planType;
     }
 
-    @Override
-    List<PlanData> readCursorAll (Cursor cursor) {
+    private List<PlanTypeData> readCursorAll (Cursor cursor) {
         // 返すlistを生成。
-        List<PlanData> planDataList = new ArrayList<>();
+        List<PlanTypeData> planTypeList = new ArrayList<>();
         while (cursor.moveToNext()) {
             // PlanDataオブジェクトを生成。
-            PlanData planData = new PlanData();
-            // 各データを格納
-            planData.setId(cursor.getInt(cursor.getColumnIndex("_id")));
-            planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
-            planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
-            planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
-            planData.setUseTime(String.valueOf(cursor.getInt(cursor.getColumnIndex("use_time"))));
-            planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
-            planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
-            planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
-            planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
-            planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("preset_id"))));
+            PlanTypeData planType = new PlanTypeData();
+            planType.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            planType.setTypeName(cursor.getString(cursor.getColumnIndex("type_name")));
+            planType.setIncomeFlag(cursor.getInt(cursor.getColumnIndex("income_flag")) != 0);
+            planType.setSpendingFlag(cursor.getInt(cursor.getColumnIndex("spending_flag")) != 0);
+            planType.setPlaceFlag(cursor.getInt(cursor.getColumnIndex("place_flag")) != 0);
+            planType.setToolFlag(cursor.getInt(cursor.getColumnIndex("tool_flag")) != 0);
+            planType.setCheckFlag(cursor.getInt(cursor.getColumnIndex("check_flag")) != 0);
             // Listに追加
-            planDataList.add(planData);
+            planTypeList.add(planType);
         }
-        return planDataList;
+        return planTypeList;
     }
 
-    public  void insertData(String day, String planTitle){
-
-        PresetPlanDBModel PresetPlanDBModel = new PresetPlanDBModel(context);
-
-        String sql;
-        List<String> bindStr = new ArrayList<>();
-            sql = "INSERT INTO " + PLAN_TYPES_TABLE_NAME + " (day, plan_title, created_at, updated_at) values(?,?, datetime('now', 'utc'),datetime('now', 'utc'));";
-            bindStr.add(day);
-            bindStr.add(planTitle);
-
-
-        super.executeSql(sql,bindStr.toArray(new String[bindStr.size()]));
-    }
-
-    public void insertData(String planDay, String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending,String memo, String presetId, String readingId){
+    public void insertData(String typeName, int incomeFlag, int spendingFlag, int placeFlag, int toolFlag, int checkFlag){
         String sql = "INSERT INTO " + PLAN_TYPES_TABLE_NAME
-                + " (plan_day, plan_title, plan_type, start_time, end_time, use_time, income, spending, memo, preset_id, reading_id, created_at, updated_at)"
-                +" values(date('" + planDay + "'),?,?,?,?,?,?,?,?,?,?, datetime('now', 'utc'),datetime('now', 'utc')) "
-                +";";
-        String[] bindStr = new String[]{
-                planTitle,
-                planType,
-                startTime,
-                endTime,
-                useTime,
-                income,
-                spending,
-                memo,
-                presetId,
-                readingId,
-        };
+                + " (type_name,"
+                + " income_flag,"
+                + " spending_flag,"
+                + " placeFlag,"
+                + " toolFlag,"
+                + " check_flag,"
+                + " created_at,"
+                + " updated_at"
+                + ") values("
+                + " '" + typeName + "',"
+                + " " + incomeFlag + ","
+                + " " + spendingFlag + ","
+                + " " + placeFlag + ","
+                + " " + toolFlag + ","
+                + " " + checkFlag + ","
+                + " datetime('now', 'utc'),"
+                + " datetime('now', 'utc') "
+                +");";
 
-        super.executeSql(sql,bindStr);
+        super.executeSql(sql, null);
 
     }
 

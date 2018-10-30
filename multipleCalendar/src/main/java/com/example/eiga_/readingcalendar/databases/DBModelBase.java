@@ -26,7 +26,6 @@ public abstract class DBModelBase {
     public void createTacle() {
 
     }
-    abstract List<PlanData> readCursorAll (Cursor cursor);
 
     void executeSql(String sql, String[] bindStr) {
         db.beginTransaction();
