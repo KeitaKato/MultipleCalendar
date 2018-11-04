@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -24,19 +26,28 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
     private LinearLayout endTimeLayout;
     private LinearLayout useTimeLayout;
     private LinearLayout typeLayout;
+    private LinearLayout reviewLayout;
     private LinearLayout incomePriceLayout;
     private LinearLayout spendingPriceLayout;
+    private LinearLayout placeLayout;
+    private LinearLayout toolLayout;
+    private LinearLayout checkLayout;
 
     private EditText planTitle;
     private TextView startTimeText;
     private TextView endTimeText;
-    private TextView useTimeText;
-    private TextView typeText;
+    private Spinner useTimeSpinner;
+    private Spinner typeSpinner;
     private TextView incomePriceText;
     private TextView spendingPriceText;
     private EditText memoText;
 
     private String selectTimeText;
+    private Spinner reviewSpinner;
+    private TextView placeText;
+    private TextView toolText;
+    private Switch checkSwitch;
+    private Spinner noticeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,24 +59,37 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
         endTimeLayout = findViewById(R.id.endTimeLayout);
         useTimeLayout = findViewById(R.id.useTimeLayout);
         typeLayout = findViewById(R.id.typeLayout);
+        reviewLayout = findViewById(R.id.reviewLayout);
         incomePriceLayout = findViewById(R.id.incomePriceLayout);
         spendingPriceLayout = findViewById(R.id.spendingPriceLayout);
+        placeLayout = findViewById(R.id.placeLayout);
+        toolLayout = findViewById(R.id.toolLayout);
+        checkLayout = findViewById(R.id.checkLayout);
 
         planTitle = findViewById(R.id.planTitle);
         startTimeText = findViewById(R.id.startTimeText);
         endTimeText = findViewById(R.id.endTimeText);
-        useTimeText = findViewById(R.id.useTimeText);
-        typeText = findViewById(R.id.typeText);
+        useTimeSpinner = findViewById(R.id.useTimeSpinner);
+        noticeSpinner = findViewById(R.id.noticeSpinner);
+        typeSpinner = findViewById(R.id.typeSpinner);
+        reviewSpinner = findViewById(R.id.reviewSpinner);
         incomePriceText = findViewById(R.id.incomePriceText);
         spendingPriceText = findViewById(R.id.spendingPriceText);
+        placeText = findViewById(R.id.placeText);
+        toolText = findViewById(R.id.toolText);
+        checkSwitch = findViewById(R.id.checkSwitch);
         memoText = findViewById(R.id.memoText);
 
         startTimeLayout.setOnClickListener(new StartTimeListener());
         endTimeLayout.setOnClickListener(new EndTimeListener());
         useTimeLayout.setOnClickListener(new UseTimeListener());
         typeLayout.setOnClickListener(new TypeListener());
+        reviewLayout.setOnClickListener(new ReviewListener());
         incomePriceLayout.setOnClickListener(new IncomePriceListener());
         spendingPriceLayout.setOnClickListener(new SpendingPriceListener());
+        placeLayout.setOnClickListener(new PlaceListener());
+        toolLayout.setOnClickListener(new ToolListener());
+        checkLayout.setOnClickListener(new CheckListener());
 
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
 
@@ -80,8 +104,8 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
             planTitle.setText(planData.getTitle());
             startTimeText.setText(planData.getStartTime());
             endTimeText.setText(planData.getEndTime());
-            useTimeText.setText(planData.getUseTime());
-            typeText.setText(planData.getType());
+//            useTimeSpinner.setText(planData.getUseTime());
+//            typeSpinner.set(planData.getType());
             incomePriceText.setText(planData.getIncome());
             spendingPriceText.setText(planData.getSpending());
             memoText.setText(planData.getMemo());
@@ -129,14 +153,28 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
             PresetPlanDBModel presetPlanDBModel = new PresetPlanDBModel(AddPlanActivity.this);
             // データベースに登録するデータを取得。
             String title = planTitle.getText().toString();
-            String startTime = startTimeText.getText().toString();
+            // 開始時間
+            String startTimeObject = startTimeText.getText().toString();
+            String startTime = startTimeObject.equals("開始時間を設定") ? null : startTimeObject;
+            // 終了時間
             String endTime = endTimeText.getText().toString();
-            String useTime = useTimeText.getText().toString();
-            String type = typeText.getText().toString();
+            // 所要時間
+            Integer useTimeObject = (Integer)useTimeSpinner.getSelectedItem();
+            int useTime = useTimeObject == null ? 0 : useTimeObject;
+            // 通知
+            Integer noticeObject = (Integer)noticeSpinner.getSelectedItem();
+            int notice = noticeObject == null ? 0 : noticeObject;
+            // カテゴリー
+            Integer typeObject = (Integer)typeSpinner.getSelectedItem();
+            int type = typeObject == null ? 0 : typeObject;
+            String review = (String)reviewSpinner.getSelectedItem();
             String incomePrice = incomePriceText.getText().toString();
             String spendingPrice = spendingPriceText.getText().toString();
+            String place = placeText.getText().toString();
+            String tool = toolText.getText().toString();
+            boolean check = checkSwitch.isChecked();
             String memo = memoText.getText().toString();
-            presetPlanDBModel.insertData(title,startTime,endTime,useTime,type,incomePrice,spendingPrice,memo);
+            presetPlanDBModel.insertData(title, type, startTime,endTime, useTime, notice, review, incomePrice,spendingPrice, place, tool, check, memo);
 
             Intent intent = new Intent(AddPlanActivity.this, PresetListActivity.class);
             startActivity(intent);
@@ -154,8 +192,8 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
             planData.setTitle(planTitle.getText().toString());
             planData.setStartTime(startTimeText.getText().toString());
             planData.setEndTime(endTimeText.getText().toString());
-            planData.setUseTime(useTimeText.getText().toString());
-            planData.setType(typeText.getText().toString());
+            planData.setUseTime((int)useTimeSpinner.getSelectedItem());
+            planData.setType((int)typeSpinner.getSelectedItem());
             planData.setIncome(incomePriceText.getText().toString());
             planData.setSpending(spendingPriceText.getText().toString());
             planData.setMemo(memoText.getText().toString());
@@ -196,6 +234,13 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
         }
     }
 
+    private class ReviewListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+        }
+    }
+
     private class IncomePriceListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -204,6 +249,27 @@ public class AddPlanActivity extends FragmentActivity implements TimePickerDialo
     }
 
     private class SpendingPriceListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+        }
+    }
+
+    private class PlaceListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+        }
+    }
+
+    private class ToolListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+        }
+    }
+
+    private class CheckListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
 

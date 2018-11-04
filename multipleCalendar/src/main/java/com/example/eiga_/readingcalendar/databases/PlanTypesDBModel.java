@@ -65,6 +65,7 @@ public class PlanTypesDBModel extends DBModelBase{
         while (cursor.moveToNext()) {
             planType.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             planType.setTypeName(cursor.getString(cursor.getColumnIndex("type_name")));
+            planType.setReviewFlag(cursor.getInt(cursor.getColumnIndex("review_flag")) != 0);
             planType.setIncomeFlag(cursor.getInt(cursor.getColumnIndex("income_flag")) != 0);
             planType.setSpendingFlag(cursor.getInt(cursor.getColumnIndex("spending_flag")) != 0);
             planType.setPlaceFlag(cursor.getInt(cursor.getColumnIndex("place_flag")) != 0);
@@ -82,6 +83,7 @@ public class PlanTypesDBModel extends DBModelBase{
             PlanTypeData planType = new PlanTypeData();
             planType.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             planType.setTypeName(cursor.getString(cursor.getColumnIndex("type_name")));
+            planType.setReviewFlag(cursor.getInt(cursor.getColumnIndex("review_flag")) != 0);
             planType.setIncomeFlag(cursor.getInt(cursor.getColumnIndex("income_flag")) != 0);
             planType.setSpendingFlag(cursor.getInt(cursor.getColumnIndex("spending_flag")) != 0);
             planType.setPlaceFlag(cursor.getInt(cursor.getColumnIndex("place_flag")) != 0);
@@ -93,9 +95,10 @@ public class PlanTypesDBModel extends DBModelBase{
         return planTypeList;
     }
 
-    public void insertData(String typeName, int incomeFlag, int spendingFlag, int placeFlag, int toolFlag, int checkFlag){
+    public void insertData(String typeName, int reviewFlag, int incomeFlag, int spendingFlag, int placeFlag, int toolFlag, int checkFlag){
         String sql = "INSERT INTO " + PLAN_TYPES_TABLE_NAME
                 + " (type_name,"
+                + " review_flag,"
                 + " income_flag,"
                 + " spending_flag,"
                 + " placeFlag,"
@@ -105,6 +108,7 @@ public class PlanTypesDBModel extends DBModelBase{
                 + " updated_at"
                 + ") values("
                 + " '" + typeName + "',"
+                + " " + reviewFlag + ","
                 + " " + incomeFlag + ","
                 + " " + spendingFlag + ","
                 + " " + placeFlag + ","

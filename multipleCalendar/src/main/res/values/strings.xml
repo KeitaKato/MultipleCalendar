@@ -10,7 +10,7 @@
     <string name="start_time_text">開始</string>
     <string name="end_time_text">終了</string>
     <string name="use_time_text">所要時間</string>
-    <string name="type_text">予定属性</string>
+    <string name="type_text">カテゴリー</string>
     <string name="income_price_text">収入</string>
     <string name="spending_price_text">支出</string>
     <string name="memo_hint_text">メモを追加</string>
@@ -29,5 +29,9 @@
     <string name="placeText">場所</string>
     <string name="tool_text">道具</string>
     <string name="check_text">終了を確認</string>
+    <string name="repeat_text">繰り返し</string>
+    <string name="notice_text">通知</string>
+    <string name="check_on">する</string>
+    <string name="check_off">しない</string>
 
 </resources>

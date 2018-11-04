@@ -8,10 +8,15 @@ public class PlanData implements Serializable{
     private String title;
     private String startTime;
     private String endTime;
-    private String useTime;
-    private String type;
+    private int useTime;
+    private int notice;
+    private int type;
+    private String review;
     private String income;
     private String spending;
+    private String place;
+    private String tool;
+    private boolean endCheck;
     private String memo;
     private String presetId;
     private String readingId;
@@ -19,15 +24,21 @@ public class PlanData implements Serializable{
     public PlanData() {
     }
 
-    public PlanData(int id, String title, String startTime, String endTime, String useTime, String type, String income, String spending, String memo) {
+    public PlanData(int id, String title, String startTime, String endTime, int useTime, int notice, int type,
+                    String review, String income, String spending, String place, String tool, boolean endCheck, String memo) {
         this.id = id;
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
         this.useTime = useTime;
+        this.notice = notice;
         this.type = type;
+        this.review = review;
         this.income = income;
         this.spending = spending;
+        this.place = place;
+        this.tool = tool;
+        this.endCheck = endCheck;
         this.memo = memo;
     }
 
@@ -55,19 +66,19 @@ public class PlanData implements Serializable{
         this.endTime = endTime;
     }
 
-    public String getUseTime() {
+    public int getUseTime() {
         return useTime;
     }
 
-    public void setUseTime(String useTime) {
+    public void setUseTime(int useTime) {
         this.useTime = useTime;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -117,5 +128,45 @@ public class PlanData implements Serializable{
 
     public void setReadingId(String readingId) {
         this.readingId = readingId;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getTool() {
+        return tool;
+    }
+
+    public void setTool(String tool) {
+        this.tool = tool;
+    }
+
+    public boolean isEndCheck() {
+        return endCheck;
+    }
+
+    public void setEndCheck(boolean endCheck) {
+        this.endCheck = endCheck;
+    }
+
+    public int getNotice() {
+        return notice;
+    }
+
+    public void setNotice(int notice) {
+        this.notice = notice;
     }
 }

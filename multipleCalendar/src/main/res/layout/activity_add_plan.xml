@@ -132,10 +132,11 @@
             android:text="@string/use_time_text"
             android:textColor="@color/blackColor" />
 
-        <TextView
-            android:id="@+id/useTimeText"
+        <Spinner
+            android:id="@+id/useTimeSpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:gravity="end"
             android:text="@string/use_set_time_text"
             android:layout_marginStart="8dp"
@@ -143,8 +144,34 @@
 
     </LinearLayout>
 
+    <!--<LinearLayout-->
+        <!--android:id="@+id/repeatLayout"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="8dp"-->
+        <!--android:clickable="true"-->
+        <!--android:focusable="true"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/useTimeLayout">-->
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/repeat_text"-->
+        <!--android:textColor="@color/blackColor" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/repeatText"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="end"-->
+        <!--android:layout_marginStart="8dp"/>-->
+    <!--</LinearLayout>-->
+
     <LinearLayout
-        android:id="@+id/typeLayout"
+        android:id="@+id/noticeLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -158,15 +185,70 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/type_text"
+            android:text="@string/notice_text"
             android:textColor="@color/blackColor" />
 
-        <TextView
-            android:id="@+id/typeText"
+        <Spinner
+            android:id="@+id/noticeSpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
+            android:background="@null"
             android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/typeLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noticeLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type_text"
+            android:textColor="@color/blackColor" />
+
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="end"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reviewLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typeLayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/income_price_text"
+        android:textColor="@color/blackColor" />
+
+    <Spinner
+        android:id="@+id/reviewSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginStart="8dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -177,9 +259,10 @@
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeLayout">
+        app:layout_constraintTop_toBottomOf="@+id/reviewLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -204,6 +287,7 @@
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/incomePriceLayout">
@@ -231,6 +315,7 @@
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spendingPriceLayout">
@@ -258,6 +343,7 @@
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/placeLayout">
@@ -285,6 +371,7 @@
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolLayout">
@@ -295,12 +382,13 @@
             android:text="@string/check_text"
             android:textColor="@color/blackColor" />
 
-        <TextView
-            android:id="@+id/checkText"
+        <Switch
+            android:id="@+id/checkSwitch"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/zero_enn"
+            android:textOn="@string/check_on"
+            android:textOff="@string/check_off"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
@@ -315,6 +403,6 @@
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spendingPriceLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/checkLayout" />
 
 </android.support.constraint.ConstraintLayout>

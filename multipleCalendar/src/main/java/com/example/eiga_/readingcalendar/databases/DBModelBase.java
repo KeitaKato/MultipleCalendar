@@ -30,7 +30,11 @@ public abstract class DBModelBase {
     void executeSql(String sql, String[] bindStr) {
         db.beginTransaction();
         try{
-            db.execSQL(sql, bindStr);
+            if (bindStr == null) {
+                db.execSQL(sql);
+            } else {
+                db.execSQL(sql, bindStr);
+            }
             db.setTransactionSuccessful();
         } catch (SQLException e) {
             Log.e("ERROR", e.toString());

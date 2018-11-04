@@ -187,17 +187,22 @@ public class AddMultiplePlansActivity extends AppCompatActivity {
             for (String planDay : checkedList) {
                 for (PlanData planItem : plansListItems) {
                     String planTitle = planItem.getTitle();
-                    String planType = planItem.getType();
+                    int planType = planItem.getType();
                     String startTime = planItem.getStartTime();
                     String endTime = planItem.getEndTime();
-                    String useTime = planItem.getUseTime();
+                    int useTime = planItem.getUseTime();
+                    int notice = planItem.getNotice();
+                    String review = planItem.getReview();
                     String income = planItem.getIncome();
                     String spending = planItem.getSpending();
+                    String place = planItem.getPlace();
+                    String tool = planItem.getTool();
+                    boolean endCheck = planItem.isEndCheck();
                     String memo = planItem.getMemo();
                     String presetId = planItem.getPresetId();
                     String readingId = planItem.getReadingId();
                     // calendarDBに追加
-                    calendarDBModel.insertData(planDay, planTitle, planType, startTime, endTime, useTime, income, spending, memo, presetId, readingId);
+                    calendarDBModel.insertData(planDay, planTitle, planType, startTime, endTime, useTime, notice, review, income, spending, place, tool, endCheck, memo, presetId, readingId);
                 }
             }
             finish();

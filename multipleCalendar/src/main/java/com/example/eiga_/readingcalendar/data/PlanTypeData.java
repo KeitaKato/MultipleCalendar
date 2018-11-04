@@ -7,6 +7,7 @@ public class PlanTypeData implements Serializable{
 
     private int id;
     private String typeName;
+    private boolean reviewFlag;
     private boolean incomeFlag;
     private boolean spendingFlag;
     private boolean placeFlag;
@@ -17,9 +18,11 @@ public class PlanTypeData implements Serializable{
 
     }
 
-    public PlanTypeData(int id, String typeName, boolean incomeFlag, boolean spendingFlag, boolean placeFlag, boolean toolFlag, boolean checkFlag) {
+    public PlanTypeData(int id, String typeName, boolean reviewFlag, boolean incomeFlag,
+                        boolean spendingFlag, boolean placeFlag, boolean toolFlag, boolean checkFlag) {
         this.id = id;
         this.typeName = typeName;
+        this.reviewFlag = reviewFlag;
         this.incomeFlag = incomeFlag;
         this.spendingFlag = spendingFlag;
         this.placeFlag = placeFlag;
@@ -41,6 +44,14 @@ public class PlanTypeData implements Serializable{
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public boolean isReviewFlag() {
+        return reviewFlag;
+    }
+
+    public void setReviewFlag(boolean reviewFlag) {
+        this.reviewFlag = reviewFlag;
     }
 
     public boolean isIncomeFlag() {

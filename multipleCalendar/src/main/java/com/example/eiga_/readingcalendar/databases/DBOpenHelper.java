@@ -17,12 +17,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "plan_day TEXT NOT NULL,"
             + "plan_title TEXT NOT NULL,"
-            + "plan_type TEXT,"
+            + "plan_type INTEGER,"
             + "start_time TEXT,"
             + "end_time TEXT,"
             + "use_time INTEGER,"
+            + "notice INTEGER,"
+            + "review INTEGER,"
             + "income INTEGER,"
             + "spending INTEGER,"
+            + "place INTEGER,"
+            + "tool INTEGER,"
+            + "end_check INTEGER,"
             + "memo TEXT,"
             + "preset_id INTEGER,"
             + "reading_id INTEGER,"
@@ -33,12 +38,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static final String PRESET_PLAN_CREATE_SQL = "CREATE TABLE " + PRESET_PLAN_TABLE_NAME + "("
             + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "plan_title TEXT NOT NULL,"
-            + "plan_type TEXT,"
+            + "plan_type INTEGER,"
             + "start_time TEXT,"
             + "end_time TEXT,"
             + "use_time INTEGER,"
+            + "notice INTEGER,"
+            + "review INTEGER,"
             + "income INTEGER,"
             + "spending INTEGER,"
+            + "place INTEGER,"
+            + "tool INTEGER,"
+            + "end_check INTEGER,"
             + "memo TEXT,"
             + "created_at NOT NULL,"
             + "updated_at NOT NULL DEFAULT CURRENT_TIMESTAMP"
@@ -47,6 +57,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static final String PLAN_TYPES_CREATE_SQL = "CREATE TABLE " + PLAN_TYPES_TABLE_NAME + "("
             + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "type_name TEXT NOT NULL,"
+            + "review_flag INTEGER NOT NULL DEFAULT 0 CHECK(review_flag IN (0, 1)),"
             + "income_flag INTEGER NOT NULL DEFAULT 0 CHECK(income_flag IN (0, 1)),"
             + "spending_flag INTEGER NOT NULL DEFAULT 0 CHECK(spending_flag IN (0, 1)),"
             + "place_flag INTEGER NOT NULL DEFAULT 0 CHECK(place_flag IN (0, 1)),"
@@ -78,10 +89,10 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(READING_DATA_CREATE_SQL);
 
         // plan_typesに初期カテゴリをインサート
-        String sql = "INSERT INTO plan_types (type_name, income_flag, spending_flag, place_flag, tool_flag, check_flag, created_at, updated_at)"
-                + " VALUES ('仕事', 1, 0, 1, 0, 0, datetime('now', 'utc'), datetime('now', 'utc')),"
-                + " ('学習', 0, 0, 0, 1, 1, datetime('now', 'utc'), datetime('now', 'utc')),"
-                + " ('買い物', 0, 1, 1, 0, 0, datetime('now', 'utc'), datetime('now', 'utc'));";
+        String sql = "INSERT INTO plan_types (type_name, review_flag, income_flag, spending_flag, place_flag, tool_flag, check_flag, created_at, updated_at)"
+                + " VALUES ('仕事', 0, 1, 0, 1, 0, 0, datetime('now', 'utc'), datetime('now', 'utc')),"
+                + " ('学習', 1, 0, 0, 0, 1, 1, datetime('now', 'utc'), datetime('now', 'utc')),"
+                + " ('買い物', 0, 0, 1, 1, 0, 0, datetime('now', 'utc'), datetime('now', 'utc'));";
 
         db.beginTransaction();
         try{

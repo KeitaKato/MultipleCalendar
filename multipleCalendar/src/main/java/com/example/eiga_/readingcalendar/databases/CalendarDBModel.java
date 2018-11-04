@@ -82,17 +82,22 @@ public class CalendarDBModel extends DBModelBase{
             planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
             planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
             planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
-            planData.setUseTime(String.valueOf(cursor.getInt(cursor.getColumnIndex("use_time"))));
-            planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
+            planData.setUseTime(cursor.getInt(cursor.getColumnIndex("use_time")));
+            planData.setNotice(cursor.getInt(cursor.getColumnIndex("notice")));
+            planData.setType(cursor.getInt(cursor.getColumnIndex("plan_type")));
+            planData.setReview(cursor.getString(cursor.getColumnIndex("review")));
             planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
             planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
+            planData.setPlace(cursor.getString(cursor.getColumnIndex("place")));
+            planData.setTool(cursor.getString(cursor.getColumnIndex("tool")));
+            planData.setEndCheck(cursor.getInt(cursor.getColumnIndex("end_check")) != 0);
             planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
             planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("preset_id"))));
         }
         return planData;
     }
 
-    List<PlanData> readCursorAll (Cursor cursor) {
+    private List<PlanData> readCursorAll(Cursor cursor) {
         // 返すlistを生成。
         List<PlanData> planDataList = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -103,10 +108,15 @@ public class CalendarDBModel extends DBModelBase{
             planData.setTitle(cursor.getString(cursor.getColumnIndex("plan_title")));
             planData.setStartTime(cursor.getString(cursor.getColumnIndex("start_time")));
             planData.setEndTime(cursor.getString(cursor.getColumnIndex("end_time")));
-            planData.setUseTime(String.valueOf(cursor.getInt(cursor.getColumnIndex("use_time"))));
-            planData.setType(cursor.getString(cursor.getColumnIndex("plan_type")));
+            planData.setUseTime(cursor.getInt(cursor.getColumnIndex("use_time")));
+            planData.setNotice(cursor.getInt(cursor.getColumnIndex("notice")));
+            planData.setType(cursor.getInt(cursor.getColumnIndex("plan_type")));
+            planData.setReview(cursor.getString(cursor.getColumnIndex("review")));
             planData.setIncome(String.valueOf(cursor.getInt(cursor.getColumnIndex("income"))));
             planData.setSpending(String.valueOf(cursor.getInt(cursor.getColumnIndex("spending"))));
+            planData.setPlace(cursor.getString(cursor.getColumnIndex("place")));
+            planData.setTool(cursor.getString(cursor.getColumnIndex("tool")));
+            planData.setEndCheck(cursor.getInt(cursor.getColumnIndex("end_check")) != 0);
             planData.setMemo(cursor.getString(cursor.getColumnIndex("memo")));
             planData.setPresetId(String.valueOf(cursor.getInt(cursor.getColumnIndex("preset_id"))));
             // Listに追加
@@ -115,58 +125,60 @@ public class CalendarDBModel extends DBModelBase{
         return planDataList;
     }
 
-    public  void insertData(String day, String planTitle){
-
-        PresetPlanDBModel PresetPlanDBModel = new PresetPlanDBModel(context);
-
-        String sql;
-        List<String> bindStr = new ArrayList<>();
-            sql = "INSERT INTO " + CALENDER_TABLE_NAME + " (day, plan_title, created_at, updated_at) values(?,?, datetime('now', 'utc'),datetime('now', 'utc'));";
-            bindStr.add(day);
-            bindStr.add(planTitle);
-
-
-        super.executeSql(sql,bindStr.toArray(new String[bindStr.size()]));
-    }
-
-    public void insertData(String planDay, String planTitle, String planType, String startTime, String endTime, String useTime, String income, String spending,String memo, String presetId, String readingId){
+    public void insertData(String planDay, String planTitle, int planType, String startTime, String endTime, int useTime, int notice,
+                           String review, String income, String spending, String place, String tool, boolean endCheck,
+                           String memo, String presetId, String readingId){
         String sql = "INSERT INTO " + CALENDER_TABLE_NAME
-                + " (plan_day, plan_title, plan_type, start_time, end_time, use_time, income, spending, memo, preset_id, reading_id, created_at, updated_at)"
-                +" values(date('" + planDay + "'),?,?,?,?,?,?,?,?,?,?, datetime('now', 'utc'),datetime('now', 'utc')) "
+                + " (plan_day, plan_title, plan_type, start_time, end_time, use_time, notice,"
+                + " review, income, spending, place, tool, end_check, memo,"
+                + " preset_id, reading_id, created_at, updated_at)"
+                + " values(date('" + planDay + "'),"
+                + "'" + planTitle + "',"
+                + planType + ","
+                + "'" + startTime + "',"
+                + "'" + endTime + "',"
+                + useTime + ","
+                + notice + ","
+                + "'" + review + "',"
+                + "'" + income + "',"
+                + "'" + spending + "',"
+                + "'" + place + "',"
+                + "'" + tool + "',"
+                + String.valueOf(endCheck ? 1 : 0) + ","
+                + "'" + memo + "',"
+                + "'" + presetId + "',"
+                + "'" + readingId + "',"
+                + "datetime('now', 'utc')"
+                + ",datetime('now', 'utc'))"
                 +";";
-        String[] bindStr = new String[]{
-                planTitle,
-                planType,
-                startTime,
-                endTime,
-                useTime,
-                income,
-                spending,
-                memo,
-                presetId,
-                readingId,
-        };
 
-        super.executeSql(sql,bindStr);
+        super.executeSql(sql,null);
 
     }
 
-    public void updateData(String column, String keyword, String day, String planTitle, String planType, String timeZone,String income, String spending) {
+    public void updateData(String column, String keyword, String day, String planTitle,
+                           int planType, String startTime, String endTime, int useTime, int notice,
+                           String review, String income, String spending, String place, String tool, boolean endCheck,
+                           String memo, String presetId, String readingId) {
         String sql = "UPDATE " + CALENDER_TABLE_NAME
-                + " SET day = ?, plan_title = ?, plan_type = ?, time_zone = ?, income = ?, spending = ?, myset_plan_id = ?, reading_data_id = ? "
-                + "WHERE ? = ? ;";
-        String[] bindStr = new String[]{
-                day,
-                planTitle,
-                planType,
-                timeZone,
-                income,
-                spending,
-                column,
-                keyword
-        };
-
-        super.executeSql(sql, bindStr);
+                + " SET day = + (date('" + day + "'),"
+                + " plan_title = '" + planTitle + "',"
+                + " plan_type = " + planType + ","
+                + " start_time = '" + startTime + "',"
+                + " end_time = '" + endTime + "',"
+                + " use_time = " + useTime + ","
+                + " notice = " + notice + ","
+                + " review = '" + review + "',"
+                + " income = '" + income + "',"
+                + " spending = '" + spending + "',"
+                + " place = '" + place + "',"
+                + " tool = '" + tool + "',"
+                + " endCheck = " + String.valueOf(endCheck ? 1 : 0) + ","
+                + " memo = '" + memo + "',"
+                + " myset_plan_id = '" + presetId + "',"
+                + " reading_data_id = '" + readingId + "'"
+                + "WHERE " + column + " = " + keyword + ";";
+        super.executeSql(sql, null);
     }
 
     public void deleteData(String column, List<String> keywords) {
