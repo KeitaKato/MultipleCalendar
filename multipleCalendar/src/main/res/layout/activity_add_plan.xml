@@ -138,6 +138,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="end"
+            android:spinnerMode="dialog"
             android:text="@string/use_set_time_text"
             android:layout_marginStart="8dp"
             />
@@ -178,6 +179,7 @@
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/useTimeLayout">
@@ -186,14 +188,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/notice_text"
+            android:layout_gravity="start"
             android:textColor="@color/blackColor" />
 
         <Spinner
             android:id="@+id/noticeSpinner"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
+            android:layout_gravity="end"
             android:background="@null"
+            android:spinnerMode="dialog"
+            android:entries="@array/notice_items"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
@@ -221,6 +226,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="end"
+            android:spinnerMode="dialog"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
@@ -248,6 +254,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
+        android:spinnerMode="dialog"
         android:layout_marginStart="8dp"/>
     </LinearLayout>
 

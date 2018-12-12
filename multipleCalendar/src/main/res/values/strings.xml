@@ -34,4 +34,16 @@
     <string name="check_on">する</string>
     <string name="check_off">しない</string>
 
+    <string-array name="notice_items">
+        <item>通知しない</item>
+        <item>予定の時間</item>
+        <item>5分前</item>
+        <item>10分前</item>
+        <item>15分前</item>
+        <item>30分前</item>
+        <item>1時間前</item>
+        <item>予定の日</item>
+        <item>カスタム</item>
+    </string-array>
+
 </resources>
