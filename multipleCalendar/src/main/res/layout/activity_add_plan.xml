@@ -230,6 +230,7 @@
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
+    <!-- カテゴリーによって表示する属性を変更-->
     <LinearLayout
         android:id="@+id/reviewLayout"
         android:layout_width="0dp"
